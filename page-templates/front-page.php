@@ -45,14 +45,6 @@ $slider_category = reactor_option('frontpage_slider_category', ''); ?>
         </div><!-- #content -->
         
         <?php reactor_content_after(); ?>
-		
-		<div id="call-to-action" class="cta">
-            <div class="row">
-                <div class="<?php reactor_columns( 12 ); ?>">
-                      
-                </div><!-- .columns -->
-            </div><!-- .row -->
- 		</div><!-- #call-to-action -->
         
 	</div><!-- #primary -->
 
