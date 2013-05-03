@@ -181,15 +181,16 @@ add_action('reactor_post_footer', 'reactor_do_post_edit', 4);
  * @since 1.0.0
  */
 function reactor_do_nav_single() {
-	if ( is_single() ) { ?>
-		<nav class="nav-single">
-			<span class="nav-previous alignleft">
-				<?php previous_post_link('%link', '<span class="meta-nav">' . _x('&larr;', 'Previous post link', 'reactor') . '</span> %title'); ?>
+    if ( is_single() ) { 
+    $exclude = ( reactor_option('frontpage_exclude_cat', 1) ) ? reactor_option('frontpage_post_category', '') : ''; ?>
+        <nav class="nav-single">
+            <span class="nav-previous alignleft">
+            <?php previous_post_link('%link', '<span class="meta-nav">' . _x('&larr;', 'Previous post link', 'reactor') . '</span> %title', false, $exclude); ?>
             </span>
-			<span class="nav-next alignright">
-				<?php next_post_link('%link', '%title <span class="meta-nav">' . _x('&rarr;', 'Next post link', 'reactor') . '</span>'); ?>
+            <span class="nav-next alignright">
+            <?php next_post_link('%link', '%title <span class="meta-nav">' . _x('&rarr;', 'Next post link', 'reactor') . '</span>', false, $exclude); ?>
             </span>
-		</nav><!-- .nav-single -->
+        </nav><!-- .nav-single -->
 <?php }
 }
 add_action('reactor_post_after', 'reactor_do_nav_single', 1);
