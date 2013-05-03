@@ -15,6 +15,7 @@
 <!-- WordPress head -->
 <?php wp_head(); ?>
 <!-- end WordPress head -->
+<?php reactor_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
