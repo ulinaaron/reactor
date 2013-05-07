@@ -34,7 +34,7 @@ if ( 'page' == get_option('show_on_front') && get_option('page_for_posts') && is
 
 	<?php wp_reset_postdata(); ?>
         
-<?php else : ?>    
+<?php elseif ( !is_home() ) : ?>    
 
 	<?php while ( have_posts() ) : the_post(); ?>
        
