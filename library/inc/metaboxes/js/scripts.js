@@ -2,7 +2,11 @@ jQuery(function($) {
 	
 	// Initialize Color Picker
 	$(document).ready(function(){
-	    $('.color_picker').wpColorPicker();
+	   // $('.color_picker').wpColorPicker();
+
+		$('#side-sortables .meta_box th').wrapAll('<tr></tr>');
+		$('#side-sortables .meta_box td').wrapAll('<tr></tr>');
+		$('#side-sortables .meta_box td').last().hide();
 	});
 	
 	// the upload image button, saves the id and outputs a preview of the image

@@ -1,4 +1,4 @@
-/* Reactor 1.0.0 - Anthony Wilhelm - http://awtheme.com/reactor/ */
+/* Reactor - Anthony Wilhelm - http://awtheme.com/ */
 ( function($) {
 
   $(document).ready( function() {

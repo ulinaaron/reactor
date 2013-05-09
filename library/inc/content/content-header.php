@@ -43,16 +43,17 @@ add_action('wp_head', 'reactor_do_reactor_head', 1);
  * @since 1.0.0
  */
 function reactor_do_top_bar() {
-	$topbar_args = array(
-		'title'     => reactor_option('topbar_title', get_bloginfo('name')),
-		'title_url' => reactor_option('topbar_title_url', home_url()),
-		'fixed'     => reactor_option('topbar_fixed', 0),
-		'contained' => reactor_option('topbar_contain', 1),
-	);
-	reactor_top_bar( $topbar_args );
+	if ( has_nav_menu('top-bar-l') || has_nav_menu('top-bar-r') ) {
+		$topbar_args = array(
+			'title'     => reactor_option('topbar_title', get_bloginfo('name')),
+			'title_url' => reactor_option('topbar_title_url', home_url()),
+			'fixed'     => reactor_option('topbar_fixed', 0),
+			'contained' => reactor_option('topbar_contain', 1),
+		);
+		reactor_top_bar( $topbar_args );
+	}
 }
 add_action('reactor_header_before', 'reactor_do_top_bar', 1);
-
 
 /**
  * Site title, tagline, logo, and nav bar
@@ -98,8 +99,8 @@ function reactor_do_nav_bar() {
 				</div>
 			</nav>
 		</div><!-- .main-nav -->
-	<?php } // end if main-menu
-                 
+		
+	<?php	
 	if ( reactor_option('mobile_menu', 1) ) { ?>       
 		<div id="mobile-menu-button" class="show-for-small">
 			<button class="secondary button" id="mobileMenuButton" href="#mobile-menu">
@@ -108,7 +109,8 @@ function reactor_do_nav_bar() {
 				<div class="mobile-menu-icon"></div>
 			</button>
 		</div><!-- #mobile-menu-button -->             
-<?php }
+	<?php }
+	}
 }
 add_action('reactor_header_inside', 'reactor_do_nav_bar', 2);
 
@@ -119,12 +121,12 @@ add_action('reactor_header_inside', 'reactor_do_nav_bar', 2);
  * @since 1.0.0
  */
 function reactor_do_mobile_nav() {
-	if ( reactor_option('mobile_menu', 1) ) { ?> 
-        <nav id="mobile-menu" class="show-for-small" role="navigation">
-            <div class="section-container accordion" data-section="accordion">
-                <?php reactor_main_menu(); ?>
-            </div>
-        </nav>
+	if ( reactor_option('mobile_menu', 1) && has_nav_menu('main-menu') ) { ?> 
+		<nav id="mobile-menu" class="show-for-small" role="navigation">
+			<div class="section-container accordion" data-section="accordion">
+				<?php reactor_main_menu(); ?>
+			</div>
+		</nav>
 <?php }
 }
 add_action('reactor_header_after', 'reactor_do_mobile_nav', 1);

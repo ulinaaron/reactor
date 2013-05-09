@@ -19,8 +19,16 @@ if ( !function_exists('reactor_page_links') ) {
 		 );
 		$args = wp_parse_args( $args, $defaults );
 
-		global ${$args['query']}; $output = '';
+		global ${$args['query']}, $wp_rewrite; $output = '';
+		
 		$the_query = ( isset( $args['query'] ) ) ? ${$args['query']} : $wp_query;
+		
+		$pagination_base = $wp_rewrite->pagination_base;
+		
+		/* If there's not more than one page, return nothing. */
+		if ( 1 >= $the_query->max_num_pages ) {
+			return;
+		}
 		
 		/**
 		 * Previous Next Links
@@ -28,13 +36,15 @@ if ( !function_exists('reactor_page_links') ) {
 		 * @since 1.0.0
 		 */
 		if ( 'prev_next' == $args['type'] ) {
-				
-			if ( $the_query->max_num_pages > 1 ) {
-				$output .= '<nav class="content-nav" role="navigation">' . "\n";
-				$output .= "\t".'<div class="content-nav-prev alignleft">' . get_next_posts_link('<span class="meta-nav meta-nav-next">&larr; ' . __('Older posts', 'reactor') . '</span>', $the_query->max_num_pages) . '</div>';
-				$output .= "\t".'<div class="content-nav-next alignright">' . get_previous_posts_link('<span class="meta-nav meta-nav-prev">'. __('Newer posts', 'reactor') . ' &rarr;</span>', $the_query->max_num_pages) . '</div>';
-				$output .= "\n" . '</nav><!-- .content-nav -->';
-			}
+		
+			$output .= '<nav class="content-nav" role="navigation">' . "\n";
+			$output .= "\t" . '<div class="content-nav-prev left">';
+			$output .= get_next_posts_link('<span class="meta-nav meta-nav-next">&larr; ' . __('Older posts', 'reactor') . '</span>', $the_query->max_num_pages);
+			$output .= '</div>';
+			$output .= "\t" . '<div class="content-nav-next right">';
+			$output .= get_previous_posts_link('<span class="meta-nav meta-nav-prev">'. __('Newer posts', 'reactor') . ' &rarr;</span>', $the_query->max_num_pages);
+			$output .= '</div>';
+			$output .= "\n" . '</nav><!-- .content-nav -->';
 			
 		} else {
 			
@@ -73,8 +83,23 @@ if ( !function_exists('reactor_page_links') ) {
 				if ( $current > 1 ) { $current = $current + 1; } // + 1 for previous link in count
 				foreach ( $links as $link ) {
 					$count++;
-					$link = str_replace('<span', '<a', $link); // Foundation doesn't use span
-					$link = str_replace('</span>', '</a>', $link); // Foundation doesn't use span
+					
+					// Foundation doesn't use span
+					$link = str_replace('<span', '<a', $link); 
+					$link = str_replace('</span>', '</a>', $link);
+					
+					/* Remove 'page/1' from the entire output since it's not needed. */
+					$link = preg_replace( 
+						array( 
+							"#(href=['\"].*?){$pagination_base}/1(['\"])#",  // 'page/1'
+							"#(href=['\"].*?){$pagination_base}/1/(['\"])#", // 'page/1/'
+							"#(href=['\"].*?)\?paged=1(['\"])#",             // '?paged=1'
+							"#(href=['\"].*?)&\#038;paged=1(['\"])#"         // '&#038;paged=1'
+						), 
+						'$1$2', 
+						$link
+					);
+					
 					$output .= ( $count == $current ) ?	'<li class="current">' : '<li>';
 					$output .= $link . '</li>';
 				}

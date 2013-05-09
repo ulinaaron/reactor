@@ -39,30 +39,65 @@
  * removing all the junk we don't
  * need. -Bones
  */
-if ( !function_exists('reactor_wp_cleanup') ) {
-	function reactor_wp_cleanup() {
-        add_action('init', 'reactor_head_cleanup'); // launching operation cleanup
-		add_filter('the_generator', 'reactor_rss_version'); // remove WP version from RSS
-		add_filter('wp_head', 'reactor_remove_wp_widget_recent_comments_style', 1); // remove injected css for recent comments widget
-		add_action('wp_head', 'reactor_remove_recent_comments_style', 1); // clean up comment styles in the head
-		add_filter('gallery_style', 'reactor_gallery_style'); // clean up gallery output in wp
-		add_filter('the_content', 'reactor_img_unautop', 30); // cleaning up code around images
-		add_filter('excerpt_more', 'reactor_excerpt_more'); // changes excerpt more link
-		add_filter('the_content_more_link', 'reactor_content_more', 10, 2); // changes content more link
-		add_filter('excerpt_length', 'reactor_excerpt_length', 999 ); // custom excerpt length
-		add_filter('img_caption_shortcode', 'reactor_cleaner_caption', 10, 3); // add html5 captions
-		add_filter('wp_title', 'reactor_wp_title', 10, 2); // creates a nicely formatted title in the header
-		add_filter('the_content', 'reactor_add_link_to_asides', 9); // add permalink to aside posts
-		add_filter('the_content', 'reactor_add_blockquote_to_quotes'); // add blockquote tag to quote posts
-		add_filter('the_content', 'reactor_add_flexvideo_to_videos'); // add blockquote tag to quote posts
-		add_action('wp_head', 'reactor_admin_bar_fix', 5); // fixes CSS output for front end admin bar
-		add_filter('post_class', 'reactor_single_post_class'); // adds class to single posts
-		add_filter('body_class', 'reactor_topbar_body_class'); // adds class to body
-		add_filter('post_class','reactor_change_sticky_class'); // change sticky class
-		add_filter('comment_reply_link', 'reactor_comment_reply_class'); // add comment reply class
+add_action('after_setup_theme', 'reactor_wp_helpers', 15); 
+ 
+if ( !function_exists('reactor_wp_helpers') ) {
+	function reactor_wp_helpers() {
+		
+		// launching operation cleanup
+		add_action('init', 'reactor_head_cleanup');
+		
+		// remove WP version from RSS
+		add_filter('the_generator', 'reactor_rss_version');
+		
+		// creates a nicely formatted title in the header
+		add_filter('wp_title', 'reactor_wp_title', 10, 2);
+		
+		// remove injected css for recent comments widget
+		add_filter('wp_head', 'reactor_remove_wp_widget_recent_comments_style', 1);
+		// clean up comment styles in the head
+		add_action('wp_head', 'reactor_remove_recent_comments_style', 1);
+		// fixes CSS output for front end admin bar
+		add_action('wp_head', 'reactor_admin_bar_fix', 5);
+		
+		// adds class to body
+		add_filter('body_class', 'reactor_topbar_body_class');
+		
+		// change sticky class
+		add_filter('post_class','reactor_change_sticky_class');
+		// adds class to single posts
+		add_filter('post_class', 'reactor_single_post_class');
+		
+		// cleaning up code around images
+		add_filter('the_content', 'reactor_img_unautop', 30);
+		// add permalink to aside posts
+		add_filter('the_content', 'reactor_add_link_to_asides', 9);
+		// add blockquote tag to quote posts
+		add_filter('the_content', 'reactor_add_blockquote_to_quotes');
+		// add blockquote tag to quote posts
+		add_filter('the_content', 'reactor_add_flexvideo_to_videos');
+		
+		// changes excerpt more link
+		add_filter('excerpt_more', 'reactor_excerpt_more');
+		// custom excerpt length
+		add_filter('excerpt_length', 'reactor_excerpt_length', 999 );
+		// changes content more link
+		add_filter('the_content_more_link', 'reactor_content_more', 10, 2); 
+		
+		// add html5 captions
+		add_filter('img_caption_shortcode', 'reactor_cleaner_caption', 10, 3);
+		
+		// clean up gallery output in wp
+		add_filter('gallery_style', 'reactor_gallery_style');
+				
+		// add comment reply class
+		add_filter('comment_reply_link', 'reactor_comment_reply_class');
+		
+		// do shortcodes in widgets
+		add_filter('widget_text', 'do_shortcode');
+		
 	}
 }
-add_action('after_setup_theme', 'reactor_wp_cleanup', 14);
 
 /**
  * 1. Head Clean Up
@@ -70,19 +105,32 @@ add_action('after_setup_theme', 'reactor_wp_cleanup', 14);
  * @since 1.0.0
  */
 function reactor_head_cleanup() {
-	// remove_action('wp_head', 'feed_links_extra', 3 ); // category feeds            
-	// remove_action('wp_head', 'feed_links', 2 ); // post and comment feeds                         
-	remove_action('wp_head', 'rsd_link'); // EditURI link                         
-	remove_action('wp_head', 'wlwmanifest_link'); // windows live writer     
-	remove_action('wp_head', 'index_rel_link'); // index link
-	remove_action('wp_head', '_admin_bar_bump_cb'); // remove wp admin bar css
-	remove_action('wp_head', 'parent_post_rel_link', 10, 0); // previous link
-	remove_action('wp_head', 'start_post_rel_link', 10, 0); // start link             
-	remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0); // links for adjacent posts
-	remove_action('wp_head', 'wp_generator'); // WP version
-	add_filter('style_loader_src', 'reactor_remove_wp_ver_css_js', 9999); // remove WP version from css
-	add_filter('script_loader_src', 'reactor_remove_wp_ver_css_js', 9999); // remove Wp version from scripts
-} // end head cleanup
+	// category feeds
+	// remove_action('wp_head', 'feed_links_extra', 3 );
+	// post and comment feeds
+	// remove_action('wp_head', 'feed_links', 2 );
+	
+	// EditURI link
+	remove_action('wp_head', 'rsd_link');
+	// windows live writer 
+	remove_action('wp_head', 'wlwmanifest_link');
+	// index link
+	remove_action('wp_head', 'index_rel_link');
+	// WP version
+	remove_action('wp_head', 'wp_generator');
+	// remove wp admin bar css
+	remove_action('wp_head', '_admin_bar_bump_cb');
+	// previous link
+	remove_action('wp_head', 'parent_post_rel_link', 10, 0);
+	// start link
+	remove_action('wp_head', 'start_post_rel_link', 10, 0);
+	// links for adjacent posts
+	remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
+	// remove WP version from css
+	add_filter('style_loader_src', 'reactor_remove_wp_ver_css_js', 9999);
+	 // remove Wp version from scripts
+	add_filter('script_loader_src', 'reactor_remove_wp_ver_css_js', 9999);
+}
 
 /**
  * 2. Remove WP version from RSS

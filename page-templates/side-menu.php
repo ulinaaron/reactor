@@ -17,7 +17,7 @@
         <div id="content" role="main">
         	<div class="row">
             	
-                <div id="side-menu" class="<?php reactor_columns( '', array( 'is_sidebar'=>true ) ); ?>">
+                <div id="side-menu" class="<?php reactor_columns( array(3, 12) ); ?>">
                 	<?php if ( has_nav_menu('side-menu') ) : ?>
                     
 						<?php // if accordion style then wrap with data-section div
@@ -34,7 +34,7 @@
                     <?php endif; ?> 
 				</div><!-- #side-menu -->      
             
-                <div class="<?php reactor_columns(); ?>">
+                <div class="<?php reactor_columns( array(9, 12) ); ?>">
                 
                 <?php reactor_inner_content_before(); ?>
                 

@@ -58,21 +58,21 @@ add_action('reactor_page_footer', 'reactor_do_page_edit');
 function reactor_do_page_links() {
 	$pagination_type = reactor_option('page_links', 'numbered');
 	
-	if ( is_page_template('page-templates/front-page.php') ) {
+	if ( is_page_template('page-templates/front-page.php') && current_theme_supports('reactor-page-links') ) {
 		$show_page_links = reactor_option('frontpage_page_links', 0);
 		if ( $show_page_links ) {
 			reactor_page_links( array('query' => 'frontpage_query', 'type' => $pagination_type) );
 		}
 	}
-	elseif ( is_page_template('page-templates/news-page.php') ) {
+	elseif ( is_page_template('page-templates/news-page.php') && current_theme_supports('reactor-page-links') ) {
 		reactor_page_links( array('query' => 'newspage_query', 'type' => $pagination_type) );
 	}
-	elseif ( is_page_template('page-templates/portfolio.php') ) {
+	elseif ( is_page_template('page-templates/portfolio.php') && current_theme_supports('reactor-page-links') ) {
 		$filter_type = reactor_option('portfolio_filter_type', 'jquery');
 		//if ( 'jquery' != $filter_type ) {
 			reactor_page_links( array('query' => 'portfolio_query', 'type' => $pagination_type) );
 		//}
-	} else {
+	} elseif ( current_theme_supports('reactor-page-links') ) {
 		reactor_page_links( array('type' => $pagination_type) );
 	}
 }

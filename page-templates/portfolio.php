@@ -28,7 +28,9 @@ $quicksand = ( 'jquery' != $filter_type ) ? false : true; ?>
                     get_template_part('loops/loop', 'page'); ?>
                     
                     <?php // category submenu function
-					reactor_category_submenu( array('taxonomy' => 'portfolio-category', 'quicksand' => $quicksand) ); ?>
+					if ( current_theme_supports('reactor-taxonomy-subnav') ) {
+						reactor_category_submenu( array('taxonomy' => 'portfolio-category', 'quicksand' => $quicksand) ); 
+					} ?>
                 
 					<?php // get the portfolio loop
 					get_template_part('loops/loop', 'portfolio'); ?>

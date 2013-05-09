@@ -73,8 +73,10 @@ ul[class*=block-grid] a {
 	line-height:45px;
 	padding:0 15px;
 }
-.top-bar-section .has-dropdown .dropdown li.has-dropdown > a:after {
-	top:7px;
+@media only screen and (min-width: 48em) {
+	.top-bar-section .has-dropdown .dropdown li.has-dropdown > a:after {
+		top:7px;
+	}
 }
 /* Header ---------------------- */
 .inner-header {
@@ -321,7 +323,8 @@ ul.pagination {
 	display:block
 }
 /* Horizontal Nav ---------------------- */
-.section-container.horizontal-nav .section .title.has-dropdown > a:after, #mobile-menu .section-container.accordion .section .title.has-dropdown > a:after {
+#menu .section-container.horizontal-nav .section .title.has-dropdown > a:after,
+#mobile-menu .section-container.accordion .section .title.has-dropdown > a:after {
 	content: "";
 	display: block;
 	width: 0;
@@ -333,17 +336,27 @@ ul.pagination {
 	right:1em;
 	top:1.688em
 }
-.section-container.horizontal-nav .side-nav li:hover a,
+#menu .section-container .section .content, 
+#mobile-menu .section-container .section .content {
+	padding: 0.9375em 0;
+}
+#menu .section-container.horizontal-nav .side-nav li,
+#mobile-menu .section-container.accordion .side-nav li {
+	margin:0;
+}
+#menu .section-container.horizontal-nav .side-nav li a,
+#mobile-menu .section-container.accordion .side-nav li a {
+	padding: 0.25em 0.9375em;
+}
+#menu .section-container.horizontal-nav .side-nav li:hover a,
 #mobile-menu .section-container.accordion .side-nav li:hover a {
 	background:#efefef
 }
-.section-container.horizontal-nav section .title.active a,
-.section-container.horizontal-nav .section .title.active a,
-.section-container.horizontal-nav.auto section .title.active a,
-.section-container.horizontal-nav.auto .section .title.active a {
+#menu .section-container.horizontal-nav .section .title.active a,
+#menu .section-container.horizontal-nav.auto .section .title.active a {
 	background: #d5d5d5;
 }
-.section-container.horizontal-nav .section:hover .content {
+#menu .section-container.horizontal-nav .section:hover .content {
 	border: 1px solid #ccc;
 	display: block;
 	min-width: 12.5em;
@@ -351,10 +364,10 @@ ul.pagination {
 	z-index: 999;
 }
 @media only screen and (min-width: 48em) {
-	.section-container.horizontal-nav .section .title.has-dropdown > a:after {
+	#menu .section-container.horizontal-nav .section .title.has-dropdown > a:after {
 		top:50%
 	}
-	.section-container.horizontal-nav .section .title.has-dropdown > a {
+	#menu .section-container.horizontal-nav .section .title.has-dropdown > a {
 		padding-right:2.813em
 	}
 }

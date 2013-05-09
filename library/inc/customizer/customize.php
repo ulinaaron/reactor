@@ -37,6 +37,12 @@ function reactor_customizer_css() {
 	if ( reactor_option('bg_attachment') && reactor_option('bg_attachment') != 'scroll') {
 	    $body_css .= 'background-attachment: ' . reactor_option('bg_attachment') . ';';
 	}
+	if ( 1 == reactor_option('bg_full_window', 0) ) {
+		$body_css .= '-webkit-background-size: cover';
+		$body_css .= '-moz-background-size: cover';
+		$body_css .= '-o-background-size: cover';
+		$body_css .= 'background-size: cover';
+	}
 	if ( reactor_option('text_color') ) {
 	    $body_css .= 'color: ' . reactor_option('text_color') . ';';
 	}
@@ -145,7 +151,7 @@ function reactor_typography_google_fonts(){
         }
     }
 }
-add_action( 'wp_enqueue_scripts', 'reactor_typography_google_fonts' );
+add_action('wp_enqueue_scripts', 'reactor_typography_google_fonts');
 
 /**
  * Enqueues the Google $font that is passed
@@ -375,17 +381,26 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 
 		// Navigation
+		$menus = get_theme_support('reactor-menus');
+		
+		if ( !is_array( $menus[0] ) ) {
+			$menus[0] = array();
+		}
+		
 		$wp_customize->add_section('reactor_customizer_nav', array( 
 			'title'          => __('Navigation', 'reactor'),
 			'priority'       => 10,
 			'description'    => '',
+			'theme_supports' => 'reactor-menus',
 			 ) );
-
+		
+		if ( in_array('top-bar-l', $menus[0] ) || in_array('top-bar-r', $menus[0] ) ) {
 			$wp_customize->add_setting('reactor_options[topbar_title]', array( 
-				'default'    => get_bloginfo('name'),
-				'type'       => 'option',
-				'capability' => 'manage_options',
-				'transport'  => 'postMessage',
+				'default'        => get_bloginfo('name'),
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'transport'      => 'postMessage',
+				'theme_supports' => 'reactor-menus',
 			 ) );
 				$wp_customize->add_control('reactor_options[topbar_title]', array( 
 					'label'    => __('Top Bar Title', 'reactor'),
@@ -395,9 +410,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 
 			$wp_customize->add_setting('reactor_options[topbar_title_url]', array( 
-				'default'    => home_url(),
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => home_url(),
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-menus',
 			 ) );
 				$wp_customize->add_control('reactor_options[topbar_title_url]', array( 
 					'label'    => __('Top Bar Title Link', 'reactor'),
@@ -407,10 +423,11 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );				 	
 
 			$wp_customize->add_setting('reactor_options[topbar_fixed]', array( 
-				'default'    => 0,
-				'type'       => 'option',
-				'capability' => 'manage_options',
-				'transport'  => 'postMessage',
+				'default'        => 0,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'transport'      => 'postMessage',
+				'theme_supports' => 'reactor-menus',
 			 ) );
 				$wp_customize->add_control('reactor_options[topbar_fixed]', array( 
 					'label'    => __('Fixed Top Bar', 'reactor'),
@@ -420,10 +437,11 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 
 			$wp_customize->add_setting('reactor_options[topbar_contain]', array( 
-				'default'    => 1,
-				'type'       => 'option',
-				'capability' => 'manage_options',
-				'transport'  => 'postMessage',
+				'default'        => 1,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'transport'      => 'postMessage',
+				'theme_supports' => 'reactor-menus',
 			 ) );
 				$wp_customize->add_control('reactor_options[topbar_contain]', array( 
 					'label'    => __('Contain Top Bar Width', 'reactor'),
@@ -431,11 +449,14 @@ if ( !function_exists('reactor_customize_register') ) {
 					'type'     => 'checkbox',
 					'priority' => 4,
 				 ) );
-
+		}
+		
+		if ( in_array('side-menu', $menus[0] ) ) {
 			$wp_customize->add_setting('reactor_options[side_nav_type]', array( 
-				'default'    => 'accordion',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 'accordion',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-menus',
 			 ) );
 				$wp_customize->add_control('reactor_options[side_nav_type]', array( 
 					'label'   => __('Side Menu Type', 'reactor'),
@@ -447,11 +468,14 @@ if ( !function_exists('reactor_customize_register') ) {
 					 ),
 					 'priority' => 5
 				 ) );
-
+		}
+		
+		if ( in_array('main-menu', $menus[0] ) ) {
 			$wp_customize->add_setting('reactor_options[mobile_menu]', array( 
-				'default'    => 1,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 1,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-menus',
 			 ) );
 				$wp_customize->add_control('reactor_options[mobile_menu]', array( 
 					'label'    => __('Off Canvas Main Menu', 'reactor'),
@@ -459,37 +483,46 @@ if ( !function_exists('reactor_customize_register') ) {
 					'type'     => 'checkbox',
 					'priority' => 6
 				 ) );
-
-		// Posts & Pages			
+		}
+		
+		// Posts & Pages
+		$layouts = get_theme_support('reactor-layouts');
+		$theme_layouts = array();
+		
+		if ( !is_array( $layouts[0] ) ) {
+			$layouts[0] = array();
+		}
+		
+		if ( in_array( '1c', $layouts[0] ) ) {   $theme_layouts['1c']   = __('One Column', 'reactor'); }
+		if ( in_array( '2c-l', $layouts[0] ) ) { $theme_layouts['2c-l'] = __('Two Columns, Left', 'reactor'); }
+		if ( in_array( '2c-r', $layouts[0] ) ) { $theme_layouts['2c-r'] = __('Two Columns, Right', 'reactor'); }
+		if ( in_array( '3c-l', $layouts[0] ) ) { $theme_layouts['3c-l'] = __('Three Columns, Left', 'reactor'); }
+		if ( in_array( '3c-r', $layouts[0] ) ) { $theme_layouts['3c-r'] = __('Three Columns, Right', 'reactor'); }
+		if ( in_array( '3c-c', $layouts[0] ) ) { $theme_layouts['3c-c'] = __('Three Columns, Center', 'reactor'); }
+		
 		$wp_customize->add_section('reactor_customizer_posts', array( 
 			'title'    => __('Posts & Pages', 'reactor'),
 			'priority' => 20,
 		 ) );
 
 			$wp_customize->add_setting('reactor_options[page_layout]', array( 
-				'default'    => '1side-cl',
+				'default'    => '2c-l',
 				'type'       => 'option',
 				'capability' => 'manage_options',
 			 ) );
 				$wp_customize->add_control('reactor_options[page_layout]', array( 
-					'label'    => __('Layout', 'reactor'),
+					'label'    => __('Default Layout', 'reactor'),
 					'section'  => 'reactor_customizer_posts',
 					'type'     => 'select',
-					'choices'  => array( 
-						'0side-cm' => __('No Sidebars', 'reactor'),
-						'1side-cl' => __('1 Sidebar - Content Left', 'reactor'),
-						'1side-cr' => __('1 Sidebar - Content Right', 'reactor'),
-						'2side-cl' => __('2 Sidebars - Content Left', 'reactor'),
-						'2side-cr' => __('2 Sidebars - Content Right', 'reactor'),
-						'2side-cm' => __('2 Sidebars - Content Middle', 'reactor'),
-						 ),
+					'choices'  => $theme_layouts,
 					'priority' => 4,
 				 ) );
 
 			$wp_customize->add_setting('reactor_options[page_links]', array( 
-				'default'    => 'numbered',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 'numbered',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-links',
 			 ) );
 				$wp_customize->add_control('reactor_options[page_links]', array( 
 					'label'    => __('Page Link Type', 'reactor'),
@@ -499,7 +532,7 @@ if ( !function_exists('reactor_customize_register') ) {
 						'numbered'  => __('Numbered', 'reactor'),
 						'prev_next' => __('Prev / Next', 'reactor'),
 						 ),
-					'priority' => 5,	
+					'priority' => 5,
 				 ) );	
 
 			$wp_customize->add_setting('reactor_options[post_readmore]', array( 
@@ -516,9 +549,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
  		
 			$wp_customize->add_setting('reactor_options[post_meta]', array( 
-				'default'    => 1,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 1,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-post-meta',
 			 ) );
 				$wp_customize->add_control('reactor_options[post_meta]', array( 
 					'label'    => __('Show Post Meta', 'reactor'),
@@ -540,9 +574,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 
 			$wp_customize->add_setting('reactor_options[tumblog_icons]', array( 
-				'default'    => 0,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 0,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-tumblog-icons',
 			 ) );
 				$wp_customize->add_control('reactor_options[tumblog_icons]', array( 
 					'label'    => __('Show Tumblog Icons', 'reactor'),
@@ -552,9 +587,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 	 
 			$wp_customize->add_setting('reactor_options[breadcrumbs]', array( 
-				'default' => 1,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 1,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-breadcrumbs',
 			 ) );
 				$wp_customize->add_control('reactor_options[breadcrumbs]', array( 
 					'label'    => __('Show Breadcrumbs', 'reactor'),
@@ -565,15 +601,17 @@ if ( !function_exists('reactor_customize_register') ) {
 
 		// Backgrounds
 		$wp_customize->add_section('reactor_customizer_background', array( 
-			'title'    => __('Background', 'reactor'),
-			'priority' => 25,
+			'title'          => __('Background', 'reactor'),
+			'priority'       => 25,
+			'theme_supports' => 'reactor-backgrounds',
 		 ) );
 
 			$wp_customize->add_setting('reactor_options[bg_color]', array( 
-				'default'    => '',
-				'type'       => 'option',
-				'capability' => 'manage_options',
-				'transport'  => 'postMessage',
+				'default'              => '',
+				'type'                 => 'option',
+				'capability'           => 'manage_options',
+				'transport'            => 'postMessage',
+				'theme_supports'       => 'reactor-backgrounds',
 				'sanitize_callback'    => 'maybe_hash_hex_color',
 				'sanitize_js_callback' => 'maybe_hash_hex_color',
 			 ) );
@@ -584,10 +622,11 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) ) );
 
 			$wp_customize->add_setting('reactor_options[bg_image]', array( 
-				'default'    => '',
-				'type'       => 'option',
-				'capability' => 'manage_options',
-				'transport'  => 'postMessage',
+				'default'        => '',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'transport'      => 'postMessage',
+				'theme_supports' => 'reactor-backgrounds',
 			 ) );
 				$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'reactor_bg_image', array( 
 					'label'    => __('Background Image', 'reactor'),
@@ -596,10 +635,11 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) ) );
 
 			$wp_customize->add_setting('reactor_options[bg_repeat]', array( 
-				'default'    => 'repeat',
-				'type'       => 'option',
-				'capability' => 'manage_options',
-				'transport'  => 'postMessage',
+				'default'        => 'repeat',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'transport'      => 'postMessage',
+				'theme_supports' => 'reactor-backgrounds',
 			 ) );
 				$wp_customize->add_control('reactor_options[bg_repeat]', array( 
 					'label'    => __('Image Repeat', 'reactor'),
@@ -614,10 +654,11 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 
 			$wp_customize->add_setting('reactor_options[bg_position]', array( 
-				'default'    => 'left top',
-				'type'       => 'option',
-				'capability' => 'manage_options',
-				'transport'  => 'postMessage',
+				'default'        => 'left top',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'transport'      => 'postMessage',
+				'theme_supports' => 'reactor-backgrounds',
 			 ) );
 				$wp_customize->add_control('reactor_options[bg_position]', array( 
 					'label'    => __('Image Position', 'reactor'),
@@ -637,10 +678,11 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 
 			$wp_customize->add_setting('reactor_options[bg_attachment]', array( 
-				'default'    => 'scroll',
-				'type'       => 'option',
-				'capability' => 'manage_options',
-				'transport'  => 'postMessage',
+				'default'        => 'scroll',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'transport'      => 'postMessage',
+				'theme_supports' => 'reactor-backgrounds',
 			 ) );
 				$wp_customize->add_control('reactor_options[bg_attachment]', array( 
 					'label'    => __('Image Attachment', 'reactor'),
@@ -650,20 +692,35 @@ if ( !function_exists('reactor_customize_register') ) {
 						'scroll' => __('Scroll', 'reactor'),
 						'fixed'  => __('Fixed', 'reactor'),
 					 ),
-				 ) );			
+				 ) );
+
+			$wp_customize->add_setting('reactor_options[bg_full_window]', array( 
+				'default'        => 0,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'transport'      => 'postMessage',
+				'theme_supports' => 'reactor-backgrounds',
+			 ) );
+				$wp_customize->add_control('reactor_options[bg_full_window]', array( 
+					'label'    => __('Full Window Background', 'reactor'),
+					'section'  => 'reactor_customizer_background',
+					'type'     => 'checkbox',
+				 ) );					 
 
 		// Fonts 
 		$font_faces = array_merge(reactor_typography_get_os_fonts() , reactor_typography_get_google_fonts());
 		
 		$wp_customize->add_section('reactor_customizer_fonts', array( 
-			'title'    => __('Fonts & Colors', 'reactor'),
-			'priority' => 30,
+			'title'          => __('Fonts & Colors', 'reactor'),
+			'priority'       => 30,
+			'theme_supports' => 'reactor-fonts',
 		 ) );
 	
 			$wp_customize->add_setting('reactor_options[content_font]', array( 
-				'default'    => "'Helvetica Neue', Helvetica, Arial, sans-serif",
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => "'Helvetica Neue', Helvetica, Arial, sans-serif",
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-fonts',
 			 ) );
 				$wp_customize->add_control('reactor_options[content_font]', array( 
 					'label'    => __('Content Font', 'reactor'),
@@ -673,9 +730,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 
 			$wp_customize->add_setting('reactor_options[title_font]', array( 
-				'default'    => "'Open Sans', sans-serif",
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => "'Open Sans', sans-serif",
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-fonts',
 			 ) );
 				$wp_customize->add_control('reactor_options[title_font]', array( 
 					'label'    => __('Title Font', 'reactor'),
@@ -689,6 +747,7 @@ if ( !function_exists('reactor_customize_register') ) {
 				'type'                 => 'option',
 				'capability'           => 'manage_options',
 				'transport'            => 'postMessage',
+				'theme_supports'       => 'reactor-fonts',
 				'sanitize_callback'    => 'maybe_hash_hex_color',
 				'sanitize_js_callback' => 'maybe_hash_hex_color',
 			 ) );
@@ -703,6 +762,7 @@ if ( !function_exists('reactor_customize_register') ) {
 				'type'                 => 'option',
 				'capability'           => 'manage_options',
 				'transport'            => 'postMessage',
+				'theme_supports'       => 'reactor-fonts',
 				'sanitize_callback'    => 'maybe_hash_hex_color',
 				'sanitize_js_callback' => 'maybe_hash_hex_color',
 			 ) );
@@ -717,6 +777,7 @@ if ( !function_exists('reactor_customize_register') ) {
 				'type'                 => 'option',
 				'capability'           => 'manage_options',
 				'transport'            => 'postMessage',
+				'theme_supports'       => 'reactor-fonts',
 				'sanitize_callback'    => 'maybe_hash_hex_color',
 				'sanitize_js_callback' => 'maybe_hash_hex_color',
 			 ) );
@@ -730,6 +791,7 @@ if ( !function_exists('reactor_customize_register') ) {
 				'default'              => '',
 				'type'                 => 'option',
 				'capability'           => 'manage_options',
+				'theme_supports'       => 'reactor-fonts',
 				'sanitize_callback'    => 'maybe_hash_hex_color',
 				'sanitize_js_callback' => 'maybe_hash_hex_color',
 			 ) );
@@ -741,14 +803,16 @@ if ( !function_exists('reactor_customize_register') ) {
 
 		// Login
 		$wp_customize->add_section('reactor_customizer_login', array( 
-			'title'    => __('Login', 'reactor'),
-			'priority' => 45,
+			'title'          => __('Login', 'reactor'),
+			'priority'       => 45,
+			'theme_supports' => 'reactor-custom-login',
 		 ) );
 
 			$wp_customize->add_setting('reactor_options[login_logo]', array( 
-				'default'    => '',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => '',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-custom-login',
 			 ) );
 				$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'reactor_login_logo', array( 
 					'label'    => __('Login Logo', 'reactor'),
@@ -757,9 +821,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) ) );
 				
 			$wp_customize->add_setting('reactor_options[login_logo_url]', array( 
-				'default'    => '',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => '',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-custom-login',
 			 ) );
 				$wp_customize->add_control('reactor_options[login_logo_url]', array( 
 					'label'    => __('Logo Link URL', 'reactor'),
@@ -768,9 +833,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 
 			$wp_customize->add_setting('reactor_options[login_logo_title]', array( 
-				'default'    => '',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => '',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-custom-login',
 			 ) );
 				$wp_customize->add_control('reactor_options[login_logo_title]', array( 
 					'label'    => __('Logo Title Attribute', 'reactor'),
@@ -778,16 +844,26 @@ if ( !function_exists('reactor_customize_register') ) {
 					'type'     => 'text',
 				 ) );
 				 
+		
+		$templates = get_theme_support('reactor-page-templates');
+		
+		if ( !is_array( $templates[0] ) ) {
+			$templates[0] = array();
+		}
+		
 		// Front Page
+		if ( in_array( 'front-page', $templates[0] ) ) {
 		$wp_customize->add_section('frontpage_settings', array( 
-			'title'    => __('Front Page', 'reactor'),
-			'priority' => 50,
+			'title'          => __('Front Page', 'reactor'),
+			'priority'       => 50,
+			'theme_supports' => 'reactor-page-templates'
 		 ) );
 		 
 			$wp_customize->add_setting('reactor_options[frontpage_post_category]', array( 
-				'default'    => '',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => '',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control( new WP_Customize_Dropdown_Categories_Control( $wp_customize, 'reactor_frontpage_post_category', array( 
 					'label'    => __('Post Category', 'reactor'),
@@ -798,9 +874,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) ) );
 				 
 			$wp_customize->add_setting('reactor_options[frontpage_exclude_cat]', array( 
-				'default'    => 1,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 1,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[frontpage_exclude_cat]', array( 
 					'label'    => __('Exclude From Blog', 'reactor'),
@@ -810,9 +887,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 			 
 			$wp_customize->add_setting('reactor_options[frontpage_slider_category]', array( 
-				'default'    => '',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => '',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => array('reactor-page-templates', 'reactor-post-types'),
 			 ) );
 				$wp_customize->add_control( new WP_Customize_Dropdown_Slide_Categories_Control( $wp_customize, 'reactor_frontpage_slider_category', array( 
 					'label'    => __('Slider Category', 'reactor'),
@@ -823,9 +901,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) ) );
 				
 			$wp_customize->add_setting('reactor_options[frontpage_post_columns]', array( 
-				'default'    => '3',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => '3',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[frontpage_post_columns]', array( 
 					'label'   => __('Post Columns', 'reactor'),
@@ -840,30 +919,11 @@ if ( !function_exists('reactor_customize_register') ) {
 					'priority' => 4,
 				 ) );
 				 
-			$wp_customize->add_setting('reactor_options[frontpage_page_layout]', array( 
-				'default'    => '0side-cm',
-				'type'       => 'option',
-				'capability' => 'manage_options',
-			 ) );
-				$wp_customize->add_control('reactor_options[frontpage_page_layout]', array( 
-					'label'   => __('Page Layout', 'reactor'),
-					'section' => 'frontpage_settings',
-					'type'    => 'select',
-					'choices' => array( 
-						'0side-cm' => __('No Sidebars', 'reactor'),
-						'1side-cl' => __('1 Sidebar - Content Left', 'reactor'),
-						'1side-cr' => __('1 Sidebar - Content Right', 'reactor'),
-						'2side-cl' => __('2 Sidebars - Content Left', 'reactor'),
-						'2side-cr' => __('2 Sidebars - Content Right', 'reactor'),
-						'2side-cm' => __('2 Sidebars - Content Middle', 'reactor'),
-						 ),
-					'priority' => 5,
-				 ) ); 
-				 
 			$wp_customize->add_setting('reactor_options[frontpage_number_posts]', array( 
-				'default'    => 3,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 3,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[frontpage_number_posts]', array( 
 					'label'    => __('Number of Posts', 'reactor'),
@@ -873,9 +933,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) ); 
 				
 			$wp_customize->add_setting('reactor_options[frontpage_show_titles]', array( 
-				'default'    => 1,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 1,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[frontpage_show_titles]', array( 
 					'label'    => __('Show Post Titles', 'reactor'),
@@ -885,9 +946,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 				 
 			$wp_customize->add_setting('reactor_options[frontpage_link_titles]', array( 
-				'default'    => 0,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 0,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[frontpage_link_titles]', array( 
 					'label'    => __('Link Post Titles', 'reactor'),
@@ -897,9 +959,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 				 
 			$wp_customize->add_setting('reactor_options[frontpage_comment_link]', array( 
-				'default'    => 0,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 0,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[frontpage_comment_link]', array( 
 					'label'    => __('Show Comment Link', 'reactor'),
@@ -909,9 +972,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) ); 
 				
 			$wp_customize->add_setting('reactor_options[frontpage_post_meta]', array( 
-				'default'    => 0,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 0,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => array('reactor-page-templates', 'reactor-post-meta'),
 			 ) );
 				$wp_customize->add_control('reactor_options[frontpage_post_meta]', array( 
 					'label'    => __('Show Post Meta', 'reactor'),
@@ -921,9 +985,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 				
 			$wp_customize->add_setting('reactor_options[frontpage_page_links]', array( 
-				'default'    => 0,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 0,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => array('reactor-page-templates', 'reactor-page-links'),
 			 ) );
 				$wp_customize->add_control('reactor_options[frontpage_page_links]', array( 
 					'label'    => __('Show Page Links', 'reactor'),
@@ -931,17 +996,21 @@ if ( !function_exists('reactor_customize_register') ) {
 					'type'     => 'checkbox',
 					'priority' => 11,
 				 ) );
-				
+		}
+		
 		// News Page
+		if ( in_array( 'news-page', $templates[0] ) ) {
 		$wp_customize->add_section('newspage_settings', array( 
-			'title'    => __('News Page', 'reactor'),
-			'priority' => 55,
+			'title'          => __('News Page', 'reactor'),
+			'priority'       => 55,
+			'theme_supports' => 'reactor-page-templates'
 		 ) );
 		 
 			$wp_customize->add_setting('reactor_options[newspage_slider_category]', array( 
-				'default'    => '',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => '',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => array('reactor-page-templates', 'reactor-post-types'),
 			 ) );
 				$wp_customize->add_control( new WP_Customize_Dropdown_Slide_Categories_Control( $wp_customize, 'reactor_newspage_slider_category', array( 
 					'label'    => __('Slider Category', 'reactor'),
@@ -952,9 +1021,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) ) );
 				 
 			$wp_customize->add_setting('reactor_options[newspage_post_columns]', array( 
-				'default'    => '2',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => '2',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[newspage_post_columns]', array( 
 					'label'   => __('Post Columns', 'reactor'),
@@ -966,32 +1036,13 @@ if ( !function_exists('reactor_customize_register') ) {
 						'3' => __('3 Columns', 'reactor'),
 					),
 					'priority' => 2,
-				 ) );
-		 
-			$wp_customize->add_setting('reactor_options[newspage_page_layout]', array( 
-				'default'    => '1side-cl',
-				'type'       => 'option',
-				'capability' => 'manage_options',
-			 ) );
-				$wp_customize->add_control('reactor_options[newspage_page_layout]', array( 
-					'label'   => __('Page Layout', 'reactor'),
-					'section' => 'newspage_settings',
-					'type'    => 'select',
-					'choices' => array( 
-						'0side-cm' => __('No Sidebars', 'reactor'),
-						'1side-cl' => __('1 Sidebar - Content Left', 'reactor'),
-						'1side-cr' => __('1 Sidebar - Content Right', 'reactor'),
-						'2side-cl' => __('2 Sidebars - Content Left', 'reactor'),
-						'2side-cr' => __('2 Sidebars - Content Right', 'reactor'),
-						'2side-cm' => __('2 Sidebars - Content Middle', 'reactor'),
-						 ),
-					'priority' => 3,
-				 ) ); 	
+				 ) );	
 				 
 			$wp_customize->add_setting('reactor_options[newspage_number_posts]', array( 
-				'default'    => get_option('posts_per_page'),
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => get_option('posts_per_page'),
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[newspage_number_posts]', array( 
 					'label'    => __('Number of Posts', 'reactor'),
@@ -1001,9 +1052,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );	
 				
 			$wp_customize->add_setting('reactor_options[newspage_post_meta]', array( 
-				'default'    => 1,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 1,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => array('reactor-page-templates', 'reactor-post-meta'),
 			 ) );
 				$wp_customize->add_control('reactor_options[newspage_post_meta]', array( 
 					'label'    => __('Show Post Meta', 'reactor'),
@@ -1013,9 +1065,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 				 
 			$wp_customize->add_setting('reactor_options[newspage_comment_link]', array( 
-				'default'    => 1,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 1,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[newspage_comment_link]', array( 
 					'label'    => __('Show Comment Link', 'reactor'),
@@ -1023,37 +1076,21 @@ if ( !function_exists('reactor_customize_register') ) {
 					'type'     => 'checkbox',
 					'priority' => 6,
 				 ) );
-				
+		}
+		
 		// Contact Page
+		if ( in_array( 'contact', $templates[0] ) ) {
 		$wp_customize->add_section('contactpage_settings', array( 
-			'title'    => __('Contact Page', 'reactor'),
-			'priority' => 60,
+			'title'          => __('Contact Page', 'reactor'),
+			'priority'       => 60,
+			'theme_supports' => 'reactor-page-templates'
 		 ) );
-		 
-			$wp_customize->add_setting('reactor_options[contact_page_layout]', array( 
-				'default'    => '1side-cl',
-				'type'       => 'option',
-				'capability' => 'manage_options',
-			 ) );
-				$wp_customize->add_control('reactor_options[contact_page_layout]', array( 
-					'label'   => __('Page Layout', 'reactor'),
-					'section' => 'contactpage_settings',
-					'type'    => 'select',
-					'choices' => array( 
-						'0side-cm' => __('No Sidebars', 'reactor'),
-						'1side-cl' => __('1 Sidebar - Content Left', 'reactor'),
-						'1side-cr' => __('1 Sidebar - Content Right', 'reactor'),
-						'2side-cl' => __('2 Sidebars - Content Left', 'reactor'),
-						'2side-cr' => __('2 Sidebars - Content Right', 'reactor'),
-						'2side-cm' => __('2 Sidebars - Content Middle', 'reactor'),
-						 ),
-					'priority' => 1,
-				 ) ); 
 		
 			$wp_customize->add_setting('reactor_options[contact_email_to]', array( 
-				'default'    => get_option('admin_email'),
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => get_option('admin_email'),
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[contact_email_to]', array( 
 					'label'    => __('Email Address', 'reactor'),
@@ -1063,9 +1100,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 				
 			$wp_customize->add_setting('reactor_options[contact_email_subject]', array( 
-				'default'    => get_bloginfo('name') . __(' - Contact Form Message', 'reactor'),
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => get_bloginfo('name') . __(' - Contact Form Message', 'reactor'),
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[contact_email_subject]', array( 
 					'label'    => __('Email Subject', 'reactor'),
@@ -1075,9 +1113,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 				
 			$wp_customize->add_setting('reactor_options[contact_email_sent]', array( 
-				'default'    => __('Thank you! Your email was sent successfully.', 'reactor'),
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => __('Thank you! Your email was sent successfully.', 'reactor'),
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[contact_email_sent]', array( 
 					'label'    => __('Send Successful Message', 'reactor'),
@@ -1085,17 +1124,21 @@ if ( !function_exists('reactor_customize_register') ) {
 					'type'     => 'text',
 					'priority' => 4,
 				 ) );
+		}
 		
 		// Portfolio
+		if ( in_array( 'portfolio', $templates[0] ) ) {
 		$wp_customize->add_section('portfolio_settings', array( 
-			'title'    => __('Portfolio Page', 'reactor'),
-			'priority' => 65,
+			'title'          => __('Portfolio Page', 'reactor'),
+			'priority'       => 65,
+			'theme_supports' => 'reactor-page-templates'
 		 ) );
 			
 			$wp_customize->add_setting('reactor_options[portfolio_post_columns]', array( 
-				'default'    => '4',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => '4',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[portfolio_post_columns]', array( 
 					'label'   => __('Post Columns', 'reactor'),
@@ -1109,31 +1152,12 @@ if ( !function_exists('reactor_customize_register') ) {
 					),
 					'priority' => 2,
 				 ) );
-		 
-			$wp_customize->add_setting('reactor_options[portfolio_page_layout]', array( 
-				'default'    => '0side-cm',
-				'type'       => 'option',
-				'capability' => 'manage_options',
-			 ) );
-				$wp_customize->add_control('reactor_options[portfolio_page_layout]', array( 
-					'label'   => __('Page Layout', 'reactor'),
-					'section' => 'portfolio_settings',
-					'type'    => 'select',
-					'choices' => array( 
-						'0side-cm' => __('No Sidebars', 'reactor'),
-						'1side-cl' => __('1 Sidebar - Content Left', 'reactor'),
-						'1side-cr' => __('1 Sidebar - Content Right', 'reactor'),
-						'2side-cl' => __('2 Sidebars - Content Left', 'reactor'),
-						'2side-cr' => __('2 Sidebars - Content Right', 'reactor'),
-						'2side-cm' => __('2 Sidebars - Content Middle', 'reactor'),
-						 ),
-					'priority' => 3,
-				 ) ); 	
 				 
 			$wp_customize->add_setting('reactor_options[portfolio_number_posts]', array( 
-				'default'    => 20,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 20,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[portfolio_number_posts]', array( 
 					'label'    => __('Number of Posts', 'reactor'),
@@ -1143,9 +1167,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 				
 			$wp_customize->add_setting('reactor_options[portfolio_filter_type]', array( 
-				'default'    => 'jquery',
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 'jquery',
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[portfolio_filter_type]', array( 
 					'label'   => __('Filter Type', 'reactor'),
@@ -1159,9 +1184,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 				
 			$wp_customize->add_setting('reactor_options[portfolio_show_titles]', array( 
-				'default'    => 1,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 1,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[portfolio_show_titles]', array( 
 					'label'    => __('Show Titles', 'reactor'),
@@ -1171,9 +1197,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );
 				 
 			$wp_customize->add_setting('reactor_options[portfolio_link_titles]', array( 
-				'default'    => 1,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 1,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => 'reactor-page-templates'
 			 ) );
 				$wp_customize->add_control('reactor_options[portfolio_link_titles]', array( 
 					'label'    => __('Link Titles', 'reactor'),
@@ -1183,9 +1210,10 @@ if ( !function_exists('reactor_customize_register') ) {
 				 ) );	
 				
 			$wp_customize->add_setting('reactor_options[portfolio_post_meta]', array( 
-				'default'    => 0,
-				'type'       => 'option',
-				'capability' => 'manage_options',
+				'default'        => 0,
+				'type'           => 'option',
+				'capability'     => 'manage_options',
+				'theme_supports' => array('reactor-page-templates', 'reactor-post-meta'),
 			 ) );
 				$wp_customize->add_control('reactor_options[portfolio_post_meta]', array( 
 					'label'    => __('Show Meta', 'reactor'),
@@ -1193,7 +1221,8 @@ if ( !function_exists('reactor_customize_register') ) {
 					'type'     => 'checkbox',
 					'priority' => 8,
 				 ) );
-				  
+		}
+		
 	}
 }
 ?>

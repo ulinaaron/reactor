@@ -9,69 +9,85 @@
  * @see register_sidebar
  * @license GNU General Public License v2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  */
+add_action('widgets_init', 'reactor_register_sidebars'); 
 
 function reactor_register_sidebars() {
-	
-	register_sidebar( array( 
-	    'name'          => __('Main Sidebar', 'reactor'),
-		'id'            => 'sidebar',
-		'description'   => 'The primary sidebar for 2 column layouts',
-		'class'         => '',
-		'before_widget' => '<div id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</div>',
-		'before_title'  => '<h4 class="widget-title">',
-		'after_title'   => '</h4>',
-	 ) );
-	 
-	register_sidebar( array( 
-	    'name'          => __('Main Sidebar 2', 'reactor'),
-		'id'            => 'sidebar-2',
-		'description'   => 'The secondary sidebar for 3 column layouts',
-		'class'         => '',
-		'before_widget' => '<div id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</div>',
-		'before_title'  => '<h4 class="widget-title">',
-		'after_title'   => '</h4>',
-	) );
 
-	register_sidebar( array(
-	    'name'          => __('Front Page Sidebar', 'reactor'),
-		'id'            => 'sidebar-frontpage',
-		'description'   => 'Primary sidebar for the front page template',
-		'class'         => '',
-		'before_widget' => '<div id="%1$s" class="widget frontpage-widget %2$s">',
-		'after_widget'  => '</div>',
-		'before_title'  => '<h4 class="widget-title">',
-		'after_title'   => '</h4>',
-	 ) );
-		
-	register_sidebar( array(
-	    'name'          => __('Front Page Sidebar 2', 'reactor'),
-		'id'            => 'sidebar-frontpage-2',
-		'description'   => 'Secondary sidebar for the front page template',
-		'class'         => '',
-		'before_widget' => '<div id="%1$s" class="widget frontpage-widget %2$s">',
-		'after_widget'  => '</div>',
-		'before_title'  => '<h4 class="widget-title">',
-		'after_title'   => '</h4>',
-	 ) );
+	$sidebars = get_theme_support( 'reactor-sidebars' );
 	
-	$footer  = '<div id="%1$s" class="widget top-bar-widget ';
-	$footer .= 'large-' . reactor_count_widgets('sidebar-footer');
-	$footer .= ' columns %2$s">';
-	register_sidebar( array(
-	    'name'          => __('Footer', 'reactor'),
-		'id'            => 'sidebar-footer',
-		'description'   => 'Footer widget area',
-		'class'         => '',
-		'before_widget' => $footer,
-		'after_widget'  => '</div>',
-		'before_title'  => '<h4 class="widget-title">',
-		'after_title'   => '</h4>',
-	 ) );
+	if ( !is_array( $sidebars[0] ) ) {
+		return;
+	}
+	
+	if ( in_array( 'primary', $sidebars[0] ) ) {
+		register_sidebar( array( 
+			'name'          => __('Primary Sidebar', 'reactor'),
+			'id'            => 'sidebar',
+			'description'   => 'The primary sidebar for 2 column layouts',
+			'class'         => '',
+			'before_widget' => '<div id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h4 class="widget-title">',
+			'after_title'   => '</h4>',
+		) );
+	}
+	
+	if ( in_array( 'secondary', $sidebars[0] ) ) {	
+		register_sidebar( array( 
+			'name'          => __('Secondary Sidebar', 'reactor'),
+			'id'            => 'sidebar-2',
+			'description'   => 'The secondary sidebar for 3 column layouts',
+			'class'         => '',
+			'before_widget' => '<div id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h4 class="widget-title">',
+			'after_title'   => '</h4>',
+		) );
+	}
+
+	if ( in_array( 'front-primary', $sidebars[0] ) ) {
+		register_sidebar( array(
+			'name'          => __('Front Page Primary', 'reactor'),
+			'id'            => 'sidebar-frontpage',
+			'description'   => 'Primary sidebar for the front page template',
+			'class'         => '',
+			'before_widget' => '<div id="%1$s" class="widget frontpage-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h4 class="widget-title">',
+			'after_title'   => '</h4>',
+		) );
+	}
+	
+	if ( in_array( 'front-secondary', $sidebars[0] ) ) {
+		register_sidebar( array(
+			'name'          => __('Front Page Secondary', 'reactor'),
+			'id'            => 'sidebar-frontpage-2',
+			'description'   => 'Secondary sidebar for the front page template',
+			'class'         => '',
+			'before_widget' => '<div id="%1$s" class="widget frontpage-widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h4 class="widget-title">',
+			'after_title'   => '</h4>',
+		) );
+	}
+
+	if ( in_array( 'footer', $sidebars[0] ) ) {
+		$footer  = '<div id="%1$s" class="widget top-bar-widget ';
+		$footer .= 'large-' . reactor_get_widget_columns('sidebar-footer');
+		$footer .= ' columns %2$s">';
+		register_sidebar( array(
+			'name'          => __('Footer', 'reactor'),
+			'id'            => 'sidebar-footer',
+			'description'   => 'Footer widget area',
+			'class'         => '',
+			'before_widget' => $footer,
+			'after_widget'  => '</div>',
+			'before_title'  => '<h4 class="widget-title">',
+			'after_title'   => '</h4>',
+		) );
+	}
+	
 }
-
-add_action('widgets_init', 'reactor_register_sidebars'); 
 
 /**
  * Count Widgets
@@ -80,7 +96,7 @@ add_action('widgets_init', 'reactor_register_sidebars');
  * @param string $sidebar_id id of sidebar
  * @since 1.0.0
  */
-function reactor_count_widgets( $sidebar_id ) {
+function reactor_get_widget_columns( $sidebar_id ) {
 	// Default number of columns in Foundation grid is 12
 	$columns = apply_filters( 'reactor_columns', 12 );
 	

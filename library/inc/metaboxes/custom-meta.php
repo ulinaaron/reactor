@@ -44,7 +44,7 @@ function custom_meta_box_field( $field, $meta = null, $repeatable = null ) {
 	$post_type = isset( $field['post_type'] ) ? $field['post_type'] : null;
 	$repeatable_fields = isset( $field['repeatable_fields'] ) ? $field['repeatable_fields'] : null;
 
-	$meta = ( !isset( $meta ) ) ? $std : $meta;
+	$meta = (  $meta ) ? $meta : $std;
 
 	// the id and name for each field
 	$id = $name = isset( $field['id'] ) ? $field['id'] : null;
@@ -424,13 +424,17 @@ class Reactor_Add_Meta_Box {
 	
 	var $id;
 	var $title;
-	var $fields;
 	var $page;
+	var $position;
+	var $priority;
+	var $fields;
 	
-    public function __construct( $id, $title, $page, $fields ) {
+    public function __construct( $id, $title, $page, $position, $priority, $fields ) {
 		$this->id = $id;
 		$this->title = $title;
 		$this->page = $page;
+		$this->position = $position;
+		$this->priority = $priority;
 		$this->fields = $fields;
 		
 		if( !is_array( $this->page ) )
@@ -518,7 +522,7 @@ class Reactor_Add_Meta_Box {
 	 */
 	function add_meta_box() {
 		foreach ( $this->page as $page ) {
-			add_meta_box( $this->id, $this->title, array( $this, 'meta_box_callback' ), $page, 'normal', 'high' );
+			add_meta_box( $this->id, $this->title, array( $this, 'meta_box_callback' ), $page, $this->position, $this->priority );
 		}
 	}
 	

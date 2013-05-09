@@ -18,7 +18,7 @@
  * @since 1.0.0
  */
 function reactor_do_reactor_tublog_icons() {
-	if ( reactor_option('tumblog_icons', false) && is_home() ) {
+	if ( reactor_option('tumblog_icons', false) && is_home() && current_theme_supports('reactor-tumblog-icons') ) {
 		$output = reactor_tumblog_icon();
 		echo $output;
 	}
@@ -129,7 +129,7 @@ function reactor_do_post_footer_meta() {
 		$post_meta = reactor_option('post_meta', 1);
 	}
 
-	if ( $post_meta ) {
+	if ( $post_meta && current_theme_supports('reactor-post-meta') ) {
 		reactor_post_meta();
 	}
 }

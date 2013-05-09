@@ -11,10 +11,10 @@
 <form role="search" method="get" id="searchform" action="' . home_url('/') . '">
 	<div class="row collapse">
 		<label class="screen-reader-text" for="s"><?php _e('Search for:', 'reactor'); ?></label>
-		<div class="<?php reactor_columns( '', array('large' => 9, 'small' => 9) ) ?>">
+		<div class="<?php reactor_columns( array(9, 9) ) ?>">
 			<input type="text" value="<?php get_search_query(); ?>" name="s" id="s" placeholder="<?php echo esc_attr__('Search', 'reactor'); ?>" />
 		</div>
-		<div class="<?php reactor_columns( '', array('large' => 3, 'small' => 3) ) ?> end">
+		<div class="<?php reactor_columns( array(3, 3) ) ?> end">
 			<input class="button prefix" type="submit" id="searchsubmit" value="<?php echo esc_attr__('Search', 'reactor'); ?>" />
 		</div>
     </div>

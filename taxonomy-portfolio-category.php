@@ -23,15 +23,17 @@
                     <header class="archive-header">
                         <h1 class="archive-title"><?php printf( __('Category: %s', 'reactor'), '<span>' . single_cat_title('', false) . '</span>'); ?></h1>
         
-                    <?php if ( category_description() ) : // Show an optional category description ?>
+						<?php if ( category_description() ) : // Show an optional category description ?>
                         <div class="archive-meta">
                         <?php echo category_description(); ?>
                         </div>
-                    <?php endif; ?>
+						<?php endif; ?>
                     </header><!-- .archive-header -->
                     
                     <?php // category submenu function
-					reactor_category_submenu( array('taxonomy' => 'portfolio-category', 'quicksand' => false) ); ?>
+					if ( current_theme_supports('reactor-taxonomy-subnav') ) {
+						reactor_category_submenu( array('taxonomy' => 'portfolio-category', 'quicksand' => false) ); 
+					} ?>
         
 					<?php // get the portfolio loop
 					get_template_part('loops/loop', 'portfolio'); ?>

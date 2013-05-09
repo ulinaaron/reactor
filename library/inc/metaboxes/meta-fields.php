@@ -9,6 +9,19 @@
 
 
 	$prefix = '_sample_';
+	
+	$layouts = get_theme_support( 'reactor-layouts' );
+	$theme_layouts = array();
+		
+	if ( !is_array( $layouts[0] ) ) {
+		$layouts[0] = array();
+	}
+	if ( in_array( '1c', $layouts[0] ) ) {   $theme_layouts['1c']   = __('One Column', 'reactor'); }
+	if ( in_array( '2c-l', $layouts[0] ) ) { $theme_layouts['2c-l'] = __('Two Columns, Left', 'reactor'); }
+	if ( in_array( '2c-r', $layouts[0] ) ) { $theme_layouts['2c-r'] = __('Two Columns, Right', 'reactor'); }
+	if ( in_array( '3c-l', $layouts[0] ) ) { $theme_layouts['3c-l'] = __('Three Columns, Left', 'reactor'); }
+	if ( in_array( '3c-r', $layouts[0] ) ) { $theme_layouts['3c-r'] = __('Three Columns, Right', 'reactor'); }
+	if ( in_array( '3c-c', $layouts[0] ) ) { $theme_layouts['3c-c'] = __('Three Columns, Center', 'reactor'); }
 
 /**
  * Variables above this line
@@ -157,6 +170,17 @@
 				'type'	=> 'url'
 			),
 		);
+		
+		$layout_fields = array(
+		 	array(
+				'label'	=> 'Select a template layout',
+				'desc'	=> '',
+				'id'	=> '_template_layout',
+				'type'	=> 'radio',
+				'std'   => reactor_option('page_layout', '2c-l'),
+				'options' => $theme_layouts,
+			),
+		);
 
 		
 /**
@@ -164,11 +188,14 @@
  *
  * @since 1.0.0
  *
- * var $id string meta box id
- * var $title string title
- * var $page string|array post type to add meta box to
- * var $show_on option to show the meta box on specific page template 
+ * var $id string meta box id for saving the database
+ * var $title string meta box title displayed with editor
+ * var $page string|array The type of Write screen on which to show the edit screen section ('post', 'page', or 'custom_post_type')
+ * var $position string The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side')
+ * var $priority string The priority within the context where the boxes should show ('high', 'core', 'default' or 'low')
  * var $fields array meta box fields
  */
-//$sample_box = new Custom_Add_Meta_Box( '_sample_box', 'Sample Box', 'post', $sample_fields );
-$slide_meta = new Reactor_Add_Meta_Box( 'slide_meta', 'Slide Link', 'slide', $slide_fields );
+//$sample_box = new Custom_Add_Meta_Box( '_sample_box', 'Sample Box', 'post', 'normal', 'high', $sample_fields );
+$slide_meta = new Reactor_Add_Meta_Box( 'slide_meta', 'Slide Link', 'slide', 'normal', 'high', $slide_fields );
+$layout_meta = new Reactor_Add_Meta_Box( 'layout_meta', 'Layout', array('post', 'page', 'portfolio'), 'side', 'default', $layout_fields );
+

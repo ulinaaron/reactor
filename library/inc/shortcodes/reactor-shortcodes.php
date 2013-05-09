@@ -91,6 +91,7 @@ class ReactorShortcodes {
 	}
     
 }
+
 $reactor_shortcodes = new ReactorShortcodes();
 
 ?>

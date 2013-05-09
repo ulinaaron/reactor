@@ -16,18 +16,20 @@
  * 
  * @since 1.0.0
  */
-function reactor_do_breadcrumbs() { 
-	if ( reactor_option('breadcrumbs', 1) ) { ?>
-		<div id="breadcrumbs">
-            <div class="row">
-                <div class="<?php reactor_columns( 12 ); ?>">
-                    <?php reactor_breadcrumbs(); ?>
-                </div><!-- .columns -->
-            </div><!-- .row -->
-        </div><!-- #breadcrumbs -->
-<?php }
+if ( current_theme_supports('reactor-breadcrumbs') ) { 
+	function reactor_do_breadcrumbs() { 
+		if ( reactor_option('breadcrumbs', 1) ) { ?>
+			<div id="breadcrumbs">
+				<div class="row">
+					<div class="<?php reactor_columns( 12 ); ?>">
+						<?php reactor_breadcrumbs(); ?>
+					</div><!-- .columns -->
+				</div><!-- .row -->
+			</div><!-- #breadcrumbs -->
+	<?php }
+	}
+	add_action('reactor_footer_before', 'reactor_do_breadcrumbs', 1);
 }
-add_action('reactor_footer_before', 'reactor_do_breadcrumbs', 1);
 
 /**
  * Footer widgets
@@ -58,9 +60,11 @@ function reactor_do_footer_content() { ?>
 		<div class="row">
         
 			<div class="<?php reactor_columns( 6 ); ?>">
+			<?php if ( function_exists('reactor_footer_links') ) : ?>
 				<nav class="footer-links" role="navigation">
 					<?php reactor_footer_links(); ?>
 				</nav><!-- #footer-links -->
+			<?php endif; ?>
 			</div><!--.columns -->
                     
 			<div class="<?php reactor_columns( 6 ); ?>">
