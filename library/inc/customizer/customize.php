@@ -169,7 +169,7 @@ function reactor_typography_enqueue_google_font( $font ){
 }
 
 /**
- * JavaScrip handlers to make Theme Customizer preview reload changes asynchronously.
+ * JavaScript handlers to make Theme Customizer preview reload changes asynchronously.
  * Credit: Twenty Twelve 1.0
  *
  * @since 1.0.0

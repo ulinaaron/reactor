@@ -598,7 +598,13 @@ class Reactor_Add_Meta_Box {
 				if ( isset( $new ) && '' == $new && $old ) {
 					delete_post_meta( $post_id, $field['id'], $old );
 				} elseif ( isset( $new ) && $new != $old ) {
-					$sanitizer = isset( $field['sanitizer'] ) ? $field['sanitizer'] : 'sanitize_text_field';
+					if ( 'editor' == $field['type']  ) {
+						$sanitizer = isset( $field['sanitizer'] ) ? $field['sanitizer'] : 'wp_kses_post';
+						wpautop( $new );
+						do_shortcode( $new );
+					} else {
+						$sanitizer = isset( $field['sanitizer'] ) ? $field['sanitizer'] : 'sanitize_text_field';
+					}
 					if ( is_array( $new ) )
 						$new = meta_box_array_map_r( 'meta_box_sanitize', $new, $sanitizer );
 					else
