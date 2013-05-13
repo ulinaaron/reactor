@@ -600,8 +600,7 @@ class Reactor_Add_Meta_Box {
 				} elseif ( isset( $new ) && $new != $old ) {
 					if ( 'editor' == $field['type']  ) {
 						$sanitizer = isset( $field['sanitizer'] ) ? $field['sanitizer'] : 'wp_kses_post';
-						wpautop( $new );
-						do_shortcode( $new );
+						$new = wpautop( do_shortcode( $new ) );
 					} else {
 						$sanitizer = isset( $field['sanitizer'] ) ? $field['sanitizer'] : 'sanitize_text_field';
 					}
