@@ -195,7 +195,7 @@ $reactor_shortcodes['columns'] = array(
 				'desc' => __('Add the column content.', 'textdomain'),
 			)
 		),
-		'shortcode' => '[{{column}} large="{{large}}" small="{{small}}" first_last="{{first_last}}"] {{content}} [/{{column}}] ',
+		'shortcode' => '[column large="{{large}}" small="{{small}}" first_last="{{first_last}}"] {{content}} [/column] ',
 		'clone_button' => __('Add Column', 'textdomain')
 	)
 );
