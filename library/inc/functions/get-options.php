@@ -37,6 +37,7 @@ function reactor_option( $name, $default = false, $meta_id = null ) {
 		
 		// if meta isset return the value
 		if ( isset( $meta ) ) {
+			$meta = do_shortcode( $meta );
 			return apply_filters( 'reactor_option_$name', $meta );
 		} 
 		

@@ -46,6 +46,8 @@ function custom_meta_box_field( $field, $meta = null, $repeatable = null ) {
 
 	$meta = (  $meta ) ? $meta : $std;
 
+	$meta = do_shortcode( $meta );
+	
 	// the id and name for each field
 	$id = $name = isset( $field['id'] ) ? $field['id'] : null;
 	if ( $repeatable ) {
@@ -600,7 +602,7 @@ class Reactor_Add_Meta_Box {
 				} elseif ( isset( $new ) && $new != $old ) {
 					if ( 'editor' == $field['type']  ) {
 						$sanitizer = isset( $field['sanitizer'] ) ? $field['sanitizer'] : 'wp_kses_post';
-						$new = wpautop( do_shortcode( $new ) );
+						$new = wpautop( $new );
 					} else {
 						$sanitizer = isset( $field['sanitizer'] ) ? $field['sanitizer'] : 'sanitize_text_field';
 					}
