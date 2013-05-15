@@ -45,8 +45,6 @@ function custom_meta_box_field( $field, $meta = null, $repeatable = null ) {
 	$repeatable_fields = isset( $field['repeatable_fields'] ) ? $field['repeatable_fields'] : null;
 
 	$meta = (  $meta ) ? $meta : $std;
-
-	$meta = do_shortcode( $meta );
 	
 	// the id and name for each field
 	$id = $name = isset( $field['id'] ) ? $field['id'] : null;
