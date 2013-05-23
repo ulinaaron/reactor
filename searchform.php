@@ -8,7 +8,7 @@
  */
 ?>
 
-<form role="search" method="get" id="searchform" action="' . home_url('/') . '">
+<form role="search" method="get" id="searchform" action="<?php bloginfo('url'); ?>">
 	<div class="row collapse">
 		<label class="screen-reader-text" for="s"><?php _e('Search for:', 'reactor'); ?></label>
 		<div class="<?php reactor_columns( array(9, 9) ) ?>">
