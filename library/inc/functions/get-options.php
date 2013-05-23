@@ -17,8 +17,7 @@ function reactor_option( $name, $default = false, $meta_id = null ) {
 	
 	// if meta_id isset get post meta
 	if ( isset( $meta_id ) ) {
-		global $post;
-		$post_id = $post->ID;
+		$post_id = absint( get_queried_object_id() );
 		
 		// if posts page is set in reading settings get the page id
 		if ( 'page' == get_option('show_on_front') && get_option('page_for_posts') && is_home() ) {
