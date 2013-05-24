@@ -31,6 +31,7 @@
  * 18. Return dynamic sidebar content
  * 19. Change Sticky Class
  * 20. Add Comment Reply Class
+ * 21. Exclude Front Page Posts
  */
 
 /**
@@ -95,6 +96,9 @@ if ( !function_exists('reactor_wp_helpers') ) {
 		
 		// do shortcodes in widgets
 		add_filter('widget_text', 'do_shortcode');
+		
+		// exclude front page posts
+		add_action( 'pre_get_posts', 'exclude_category' );
 		
 	}
 }
@@ -410,5 +414,19 @@ function reactor_change_sticky_class( $classes ) {
  */  
 function reactor_comment_reply_class( $link ) {
 	return str_replace("class='comment-reply-link'", "class='comment-reply-link button small'", $link);
+}
+
+/**
+ * 21. Exclude Front Page Posts
+ * If option is set in customizer to exlude front page posts
+ * then remove them from the main query
+ *
+ * @since 1.0.0
+ */ 
+function exclude_category( $query ) {
+	$exclude = ( reactor_option('frontpage_exclude_cat', 1) ) ? -reactor_option('frontpage_post_category', '') : '';
+    if ( $query->is_home() && $query->is_main_query() ) {
+        $query->set( 'cat', $exclude );
+    }
 }
 ?>

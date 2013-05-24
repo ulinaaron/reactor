@@ -9,7 +9,8 @@
 ?>
 	<?php // get the page layout
 	wp_reset_postdata(); 
-    $layout =  reactor_option('', '2c-l', '_template_layout'); ?>
+	$default = reactor_option('page_layout', '2c-l');
+	$layout = reactor_option('', $default, '_template_layout'); ?>
     
     <?php // if layout has one sidebar and the sidebar is active
     if ( is_active_sidebar('sidebar') && '1c' != $layout ) : ?>

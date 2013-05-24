@@ -10,7 +10,7 @@
 
 	<?php // get the front page layout
 	wp_reset_postdata();
-    $layout =  reactor_option('', '2c-l', '_template_layout'); ?>
+    $layout =  reactor_option('', '1c', '_template_layout'); ?>
     
     <?php // if front page has one sidebar and the sidebar is active
     if ( is_active_sidebar('sidebar-frontpage') && '1c' != $layout ) : ?>

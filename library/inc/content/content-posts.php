@@ -18,7 +18,7 @@
  * @since 1.0.0
  */
 function reactor_do_reactor_tublog_icons() {
-	if ( reactor_option('tumblog_icons', false) && is_home() && current_theme_supports('reactor-tumblog-icons') ) {
+	if ( reactor_option('tumblog_icons', false) && ( is_home() || is_archive() ) && current_theme_supports('reactor-tumblog-icons') ) {
 		$output = reactor_tumblog_icon();
 		echo $output;
 	}

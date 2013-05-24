@@ -4,7 +4,7 @@
  *
  * @package Reactor
  * @author Anthony Wilhelm (@awshout / anthonywilhelm.com)
- * @version 1.1.3
+ * @version 1.1.4
  * @since 1.1.0
  * @copyright Copyright (c) 2013, Anthony Wilhelm
  * @license GNU General Public License v2 or later (http://www.gnu.org/licenses/gpl-2.0.html)

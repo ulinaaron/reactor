@@ -8,25 +8,11 @@
  */
 ?>
 
-<?php /* get the options
-excludes the frontpage category from the blog */
-$exclude = ( reactor_option('frontpage_exclude_cat', 1) ) ? -reactor_option('frontpage_post_category', '') : ''; ?>
-
-	<?php // start the loop
-	$paged = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
-	$args = array( 
-		'post_type' => 'post',
-		'cat'       => $exclude,
-		'paged'     => $paged ); 
-	
-	global $wp_query;
-	$wp_query = new WP_Query( $args ); ?>
-
-	<?php if ( $wp_query->have_posts() ) : ?>
+	<?php if ( have_posts() ) : ?>
                         
         <?php reactor_loop_before(); ?>
                         
-        <?php while ( $wp_query->have_posts() ) : $wp_query->the_post(); global $more; $more = 0; ?>
+        <?php while ( have_posts() ) : the_post(); ?>
     
             <?php reactor_post_before(); ?>
                             

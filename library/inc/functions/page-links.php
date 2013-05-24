@@ -55,56 +55,85 @@ if ( !function_exists('reactor_page_links') ) {
 		 * @see paginate_links
 		 * @since 1.0.0
 		 */			
+		 
 			$big = 999999999; // need an unlikely integer
 			$count = 0;
 			$base = str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) );
 			$total = $the_query->max_num_pages;
 			$current = max( 1, get_query_var('paged') );
 			
-			$args = array(
-				'base'         => $base,
-				'format'       => '?page=%#%',
-				'total'        => $total,
-				'current'      => $current,
-				'show_all'     => false,
-				'end_size'     => 1,
-				'mid_size'     => 2,
-				'prev_next'    => true,
-				'prev_text'    => __('&laquo; Prev', 'reactor'),
-				'next_text'    => __('Next &raquo;', 'reactor'),
-				'type'         => 'array',
-				'add_args'     => false,
+			$defaults = array(
+				'base' => $base,
+				'format' => '?page=%#%',
+				'total' => $total,
+				'current' => $current,
+				'show_all' => false,
+				'prev_next' => true,
+				'prev_text' => __('&laquo; Previous'),
+				'next_text' => __('Next &raquo;'),
+				'end_size' => 2,
+				'mid_size' => 3,
+				'add_args' => false,
 				'add_fragment' => ''
 			);
-			$links = paginate_links( $args );
+
+			$args = wp_parse_args( $args, $defaults );
+			extract($args, EXTR_SKIP);
+
+			// Who knows what else people pass in $args
+			$total = (int) $total;
+			if ( $total < 2 )
+				return;
+			$current  = (int) $current;
+			$end_size = 0  < (int) $end_size ? (int) $end_size : 1; // Out of bounds?  Make it the default.
+			$mid_size = 0 <= (int) $mid_size ? (int) $mid_size : 2;
+			$add_args = is_array($add_args) ? $add_args : false;
+			$r = '';
+			$page_links = array();
+			$n = 0;
+			$dots = false;
 			
-			if ( $links ) {
-				$output .= '<ul class="pagination">';
-				if ( $current > 1 ) { $current = $current + 1; } // + 1 for previous link in count
-				foreach ( $links as $link ) {
-					$count++;
-					
-					// Foundation doesn't use span
-					$link = str_replace('<span', '<a', $link); 
-					$link = str_replace('</span>', '</a>', $link);
-					
-					/* Remove 'page/1' from the entire output since it's not needed. */
-					$link = preg_replace( 
-						array( 
-							"#(href=['\"].*?){$pagination_base}/1(['\"])#",  // 'page/1'
-							"#(href=['\"].*?){$pagination_base}/1/(['\"])#", // 'page/1/'
-							"#(href=['\"].*?)\?paged=1(['\"])#",             // '?paged=1'
-							"#(href=['\"].*?)&\#038;paged=1(['\"])#"         // '&#038;paged=1'
-						), 
-						'$1$2', 
-						$link
-					);
-					
-					$output .= ( $count == $current ) ?	'<li class="current">' : '<li>';
-					$output .= $link . '</li>';
-				}
-				$output .= '</ul>';
-			}
+			$output = "<ul class='pagination'>";
+
+			if ( $prev_next && $current && 1 < $current ) :
+				$link = str_replace('%_%', 2 == $current ? '' : $format, $base);
+				$link = str_replace('%#%', $current - 1, $link);
+				if ( $add_args )
+					$link = add_query_arg( $add_args, $link );
+				$link .= $add_fragment;
+				$page_links[] = '<li><a class="prev page-numbers" href="' . esc_url( $link ) . '">' . $prev_text . '</a></li>';
+			endif;
+			for ( $n = 1; $n <= $total; $n++ ) :
+				$n_display = number_format_i18n($n);
+				if ( $n == $current ) :
+					$page_links[] = "<li class='current'><a class='page-numbers current'>$n_display</a></li>";
+					$dots = true;
+				else :
+					if ( $show_all || ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) ) :
+						$link = str_replace('%_%', 1 == $n ? '' : $format, $base);
+						$link = str_replace('%#%', $n, $link);
+						if ( $add_args )
+							$link = add_query_arg( $add_args, $link );
+						$link .= $add_fragment;
+						$page_links[] = "<li><a class='page-numbers' href='" . esc_url( $link ) . "'>$n_display</a></li>";
+						$dots = true;
+					elseif ( $dots && !$show_all ) :
+						$page_links[] = '<li><a class="page-numbers dots">' . __( '&hellip;' ) . '</a></li>';
+						$dots = false;
+					endif;
+				endif;
+			endfor;
+			if ( $prev_next && $current && ( $current < $total || -1 == $total ) ) :
+				$link = str_replace('%_%', $format, $base);
+				$link = str_replace('%#%', $current + 1, $link);
+				if ( $add_args )
+					$link = add_query_arg( $add_args, $link );
+				$link .= $add_fragment;
+				$page_links[] = '<li><a class="next page-numbers" href="' . esc_url( $link ) . '">' . $next_text . '</a></li>';
+			endif;
+
+			$output .= join("\n", $page_links);
+			$output .= "</ul>";
 		}
 	
 	echo apply_filters( 'reactor_paginate_links', $output );	

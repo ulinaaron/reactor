@@ -37,6 +37,9 @@ class Reactor {
 		require_once locate_template('/library/inc/extensions/scripts.php');
 		require_once locate_template('/library/inc/metaboxes/custom-meta.php');
 		
+		// custom widgets
+		require_once locate_template('/library/inc/widgets/recent-posts.php');
+		
 		// if theme supports extensions
 		require_if_theme_supports('reactor-menus', locate_template('/library/inc/extensions/walkers.php'));
 		require_if_theme_supports('reactor-menus', locate_template('/library/inc/extensions/menus.php'));

@@ -1,6 +1,6 @@
 <?php
 /**
- * Breadcrumb Trail
+ * Breadcrumbs
  *
  * Breadcrumb Trail is a script for showing a breadcrumb trail for any type of page.  It tries to anticipate 
  * any type of structure and display the best possible trail that matches your site's permalink structure.
@@ -13,9 +13,10 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without 
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @package BreadcrumbTrail
+ * @package Reactor
  * @version 0.4.1
  * @author Justin Tadlock <justin@justintadlock.com>
+ * @author Anthony Wilhelm (@awshout / anthonywilhelm.com)
  * @copyright Copyright (c) 2008 - 2011, Justin Tadlock
  * @link http://justintadlock.com/archives/2009/04/05/breadcrumb-trail-wordpress-plugin
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -38,7 +39,7 @@ function reactor_breadcrumbs( $args = array() ) {
 	/* Set up the default arguments for the breadcrumb. */
 	$defaults = array(
 		'front_page' => true,
-		'show_home'  => __( 'Home', 'reactor' ),
+		'home_text'  => __('Home', 'reactor'),
 		'echo'       => true
 	);
 
@@ -64,9 +65,10 @@ function reactor_breadcrumbs( $args = array() ) {
 		$breadcrumb = '<ul class="breadcrumbs">';
 
 		/* Wrap the $trail['trail_end'] value in a container. */
-		if ( !empty( $trail['trail_end'] ) )
+		if ( !empty( $trail['trail_end'] ) ) {
 			$trail['trail_end'] = '<li class="current"><a href="#">' . $trail['trail_end'] . '</a></li>';
-
+		}
+		
 		/* Join the individual trail items into a single string. */
 		$breadcrumb .= join( "", $trail );
 
@@ -78,10 +80,11 @@ function reactor_breadcrumbs( $args = array() ) {
 	$breadcrumb = apply_filters( 'reactor_breadcrumbs', $breadcrumb, $args );
 
 	/* Output the breadcrumb. */
-	if ( $args['echo'] )
+	if ( $args['echo'] ) {
 		echo $breadcrumb;
-	else
+	} else {
 		return $breadcrumb;
+	}
 }
 
 /**
@@ -101,21 +104,28 @@ function reactor_breadcrumbs_get_items( $args = array() ) {
 	$trail = array();
 	$path = '';
 
-	/* If $show_home is set and we're not on the front page of the site, link to the home page. */
-	if ( !is_front_page() && $args['show_home'] )
-		$trail[] = '<li><a href="' . home_url() . '" title="' . esc_attr( get_bloginfo( 'name' ) ) . '" rel="home" class="trail-begin">' . $args['show_home'] . '</a></li>';
+	/* If $home_text is set and we're not on the front page of the site, link to the home page. */
+	if ( !is_front_page() && $args['home_text'] ) {
+		$trail[] = '<li><a href="' . home_url() . '" title="' . esc_attr( get_bloginfo( 'name' ) ) . '" rel="home" class="trail-begin">' . $args['home_text'] . '</a></li>';
+	}
 
 	/* If viewing the front page of the site. */
-	if ( is_front_page() ) {
-		if ( $args['show_home'] && $args['front_page'] )
-			$trail['trail_end'] = "{$args['show_home']}";
+	if ( is_front_page() && $args['home_text'] && $args['front_page'] ) {
+			$trail['trail_end'] = "{$args['home_text']}";
 	}
 
 	/* If viewing the "home"/posts page. */
 	elseif ( is_home() ) {
-		$home_page = get_page( get_queried_object_id() );
-		$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( $home_page->post_parent, '' ) );
-		$trail['trail_end'] = get_the_title( $home_page->ID );
+		if ( 'page' == get_option('show_on_front') && get_option('page_for_posts') ) {
+			the_post();
+			$page_id = get_option('page_for_posts');
+			setup_postdata( get_page( $page_id ) );
+			$trail['trail_end'] = get_the_title( $page_id );
+		} else {
+			$home_page = get_page( get_queried_object_id() );
+			$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( $home_page->post_parent, '' ) );
+			$trail['trail_end'] = get_the_title( $home_page->ID );
+		}
 	}
 
 	/* If viewing a singular post (page, attachment, etc.). */
@@ -132,14 +142,22 @@ function reactor_breadcrumbs_get_items( $args = array() ) {
 
 		/* If viewing a singular 'post'. */
 		if ( 'post' == $post_type ) {
-
+		
+			if ( 'page' == get_option('show_on_front') && get_option('page_for_posts') ) {
+				the_post();
+				$page_id = get_option('page_for_posts');
+				setup_postdata( get_page( $page_id ) );
+				$path .= get_the_title( $page_id );
+			}
+			
 			/* If $front has been set, add it to the $path. */
 			$path .= trailingslashit( $wp_rewrite->front );
 
 			/* If there's a path, check for parents. */
-			if ( !empty( $path ) )
+			if ( !empty( $path ) ) {
 				$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
-
+			}
+			
 			/* Map the permalink structure tags to actual links. */
 			$trail = array_merge( $trail, reactor_breadcrumbs_map_rewrite_tags( $post_id, get_option( 'permalink_structure' ), $args ) );
 		}
@@ -151,9 +169,10 @@ function reactor_breadcrumbs_get_items( $args = array() ) {
 			$path .= trailingslashit( $wp_rewrite->front );
 
 			/* If there's a path, check for parents. */
-			if ( !empty( $path ) )
+			if ( !empty( $path ) ) {
 				$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
-
+			}
+			
 			/* Map the post (parent) permalink structure tags to actual links. */
 			$trail = array_merge( $trail, reactor_breadcrumbs_map_rewrite_tags( $post->post_parent, get_option( 'permalink_structure' ), $args ) );
 		}
@@ -162,164 +181,174 @@ function reactor_breadcrumbs_get_items( $args = array() ) {
 		elseif ( 'page' !== $post_type ) {
 
 			/* If $front has been set, add it to the $path. */
-			if ( $post_type_object->rewrite['with_front'] && $wp_rewrite->front )
+			if ( $post_type_object->rewrite['with_front'] && $wp_rewrite->front ) {
 				$path .= trailingslashit( $wp_rewrite->front );
-
+			}
+			
 			/* If there's a slug, add it to the $path. */
-			if ( !empty( $post_type_object->rewrite['slug'] ) )
-				$path .= $post_type_object->rewrite['slug'];
+			//if ( !empty( $post_type_object->rewrite['slug'] ) )
+			//	$path .= $post_type_object->rewrite['slug'];
 
 			/* If there's a path, check for parents. */
-			if ( !empty( $path ) )
-				$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
+			//if ( !empty( $path ) )
+			//	$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
 
 			/* If there's an archive page, add it to the trail. */
-			if ( !empty( $post_type_object->has_archive ) )
-				$trail[] = '<li><a href="' . get_post_type_archive_link( $post_type ) . '" title="' . esc_attr( $post_type_object->labels->name ) . '">' . $post_type_object->labels->name . '</a></li>';
+			//if ( !empty( $post_type_object->has_archive ) )
+			//	$trail[] = '<li><a href="' . get_post_type_archive_link( $post_type ) . '" title="' . esc_attr( $post_type_object->labels->name ) . '">' . //$post_type_object->labels->name . '</a></li>';
 		}
 
 		/* If the post type path returns nothing and there is a parent, get its parents. */
-		if ( ( empty( $path ) && 0 !== $parent ) || ( 'attachment' == $post_type ) )
+		if ( ( empty( $path ) && 0 !== $parent ) || ( 'attachment' == $post_type ) ) {
 			$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( $parent, '' ) );
+		}	
 
 		/* Or, if the post type is hierarchical and there's a parent, get its parents. */
-		elseif ( 0 !== $parent && is_post_type_hierarchical( $post_type ) )
+		elseif ( 0 !== $parent && is_post_type_hierarchical( $post_type ) ) {
 			$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( $parent, '' ) );
-
+		}
+		
 		/* Display terms for specific post type taxonomy if requested. */
-		if ( !empty( $args["singular_{$post_type}_taxonomy"] ) && $terms = get_the_term_list( $post_id, $args["singular_{$post_type}_taxonomy"], '', ', ', '' ) )
-			$trail[] = $terms;
-
+		$taxonomy = ( 'post' !== $post_type ) ? $post_type . '-category' : 'category';
+		$categories = get_the_terms( $post_id, $taxonomy );
+		if ( is_array( $categories ) ) {
+			$categories = array_reverse( $categories );
+		
+			foreach ( $categories as $category ) {
+				$trail[] = '<li><a href="' . get_term_link( $category->slug, $taxonomy ) . '" title="' . sprintf( __('View all posts in %s', 'reactor'), $category->name ) . '">' . $category->name . '</a></li>';
+			}
+		}
+		
 		/* End with the post title. */
 		$post_title = get_the_title();
-		if ( !empty( $post_title ) )
+		if ( !empty( $post_title ) ) {
 			$trail['trail_end'] = $post_title;
+		}
 	}
 
-	/* If we're viewing any type of archive. */
-	elseif ( is_archive() ) {
+	/* If viewing a taxonomy term archive. */
+	if ( is_tax() || is_category() || is_tag() ) {
 
-		/* If viewing a taxonomy term archive. */
-		if ( is_tax() || is_category() || is_tag() ) {
+		/* Get some taxonomy and term variables. */
+		$term = get_queried_object();
+		$taxonomy = get_taxonomy( $term->taxonomy );
 
-			/* Get some taxonomy and term variables. */
-			$term = get_queried_object();
-			$taxonomy = get_taxonomy( $term->taxonomy );
-
-			/* Get the path to the term archive. Use this to determine if a page is present with it. */
-			if ( is_category() )
-				$path = get_option( 'category_base' );
-			elseif ( is_tag() )
-				$path = get_option( 'tag_base' );
-			else {
-				if ( $taxonomy->rewrite['with_front'] && $wp_rewrite->front )
-					$path = trailingslashit( $wp_rewrite->front );
-				$path .= $taxonomy->rewrite['slug'];
-			}
-
-			/* Get parent pages by path if they exist. */
-			if ( $path )
-				$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
-
-			/* If the taxonomy is hierarchical, list its parent terms. */
-			if ( is_taxonomy_hierarchical( $term->taxonomy ) && $term->parent )
-				$trail = array_merge( $trail, reactor_breadcrumbs_get_term_parents( $term->parent, $term->taxonomy ) );
-
-			/* Add the term name to the trail end. */
-			$trail['trail_end'] = single_term_title( '', false );
+		/* Get the path to the term archive. Use this to determine if a page is present with it. */
+		if ( is_category() ) {
+			$path = get_option( 'category_base' );
+		} elseif ( is_tag() ) {
+			$path = get_option( 'tag_base' );
+		} elseif ( $taxonomy->rewrite['with_front'] && $wp_rewrite->front ) {
+			$path = trailingslashit( $wp_rewrite->front );
+			$path .= $taxonomy->rewrite['slug'];
 		}
 
-		/* If viewing a post type archive. */
-		elseif ( is_post_type_archive() ) {
+		/* Get parent pages by path if they exist. */
+		if ( $path ) {
+			$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
+		}
+		
+		/* If the taxonomy is hierarchical, list its parent terms. */
+		if ( isset( $term ) && ( is_taxonomy_hierarchical( $term->taxonomy ) && $term->parent ) ) {
+			$trail = array_merge( $trail, reactor_breadcrumbs_get_term_parents( $term->parent, $term->taxonomy ) );
+		}
+		
+		/* Add the term name to the trail end. */
+		$trail['trail_end'] = single_term_title( '', false );
+	}
 
-			/* Get the post type object. */
-			$post_type_object = get_post_type_object( get_query_var( 'post_type' ) );
+	/* If viewing a post type archive. */
+	elseif ( is_post_type_archive() ) {
 
-			/* If $front has been set, add it to the $path. */
-			if ( $post_type_object->rewrite['with_front'] && $wp_rewrite->front )
-				$path .= trailingslashit( $wp_rewrite->front );
+		/* Get the post type object. */
+		$post_type_object = get_post_type_object( get_query_var( 'post_type' ) );
 
-			/* If there's a slug, add it to the $path. */
-			if ( !empty( $post_type_object->rewrite['slug'] ) )
-				$path .= $post_type_object->rewrite['slug'];
+		/* If $front has been set, add it to the $path. */
+		if ( $post_type_object->rewrite['with_front'] && $wp_rewrite->front ) {
+			$path .= trailingslashit( $wp_rewrite->front );
+		}
+			
+		/* If there's a slug, add it to the $path. */
+		if ( !empty( $post_type_object->rewrite['slug'] ) ) {
+			$path .= $post_type_object->rewrite['slug'];
+		}
+			
+		/* If there's a path, check for parents. */
+		if ( !empty( $path ) ) {
+			$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
+		}
+			
+		/* Add the post type [plural] name to the trail end. */
+		$trail['trail_end'] = $post_type_object->labels->name;
+	}
 
-			/* If there's a path, check for parents. */
-			if ( !empty( $path ) )
-				$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
+	/* If viewing an author archive. */
+	elseif ( is_author() ) {
 
-			/* Add the post type [plural] name to the trail end. */
-			$trail['trail_end'] = $post_type_object->labels->name;
+		/* If $front has been set, add it to $path. */
+		if ( !empty( $wp_rewrite->front ) ) {
+			$path .= trailingslashit( $wp_rewrite->front );
+		}
+			
+		/* If an $author_base exists, add it to $path. */
+		if ( !empty( $wp_rewrite->author_base ) ) {
+			$path .= $wp_rewrite->author_base;
+		}
+			
+		/* If $path exists, check for parent pages. */
+		if ( !empty( $path ) ) {
+			$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
+		}
+			
+		/* Add the author's display name to the trail end. */
+		$trail['trail_end'] = get_the_author_meta( 'display_name', get_query_var( 'author' ) );
+	}
+
+	/* If viewing a time-based archive. */
+	elseif ( is_time() ) {
+
+		if ( get_query_var( 'minute' ) && get_query_var( 'hour' ) ) {
+			$trail['trail_end'] = get_the_time( __( 'g:i a', 'reactor' ) );
+		} elseif ( get_query_var( 'minute' ) ) {
+			$trail['trail_end'] = sprintf( __( 'Minute %1$s', 'reactor' ), get_the_time( __( 'i', 'reactor' ) ) );
+		} elseif ( get_query_var( 'hour' ) ) {
+			$trail['trail_end'] = get_the_time( __( 'g a', 'reactor' ) );
+		}
+	}
+
+	/* If viewing a date-based archive. */
+	elseif ( is_date() ) {
+
+		/* If $front has been set, check for parent pages. */
+		if ( $wp_rewrite->front ) {
+			$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $wp_rewrite->front ) );
 		}
 
-		/* If viewing an author archive. */
-		elseif ( is_author() ) {
-
-			/* If $front has been set, add it to $path. */
-			if ( !empty( $wp_rewrite->front ) )
-				$path .= trailingslashit( $wp_rewrite->front );
-
-			/* If an $author_base exists, add it to $path. */
-			if ( !empty( $wp_rewrite->author_base ) )
-				$path .= $wp_rewrite->author_base;
-
-			/* If $path exists, check for parent pages. */
-			if ( !empty( $path ) )
-				$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
-
-			/* Add the author's display name to the trail end. */
-			$trail['trail_end'] = get_the_author_meta( 'display_name', get_query_var( 'author' ) );
-		}
-
-		/* If viewing a time-based archive. */
-		elseif ( is_time() ) {
-
-			if ( get_query_var( 'minute' ) && get_query_var( 'hour' ) )
-				$trail['trail_end'] = get_the_time( __( 'g:i a', 'reactor' ) );
-
-			elseif ( get_query_var( 'minute' ) )
-				$trail['trail_end'] = sprintf( __( 'Minute %1$s', 'reactor' ), get_the_time( __( 'i', 'reactor' ) ) );
-
-			elseif ( get_query_var( 'hour' ) )
-				$trail['trail_end'] = get_the_time( __( 'g a', 'reactor' ) );
-		}
-
-		/* If viewing a date-based archive. */
-		elseif ( is_date() ) {
-
-			/* If $front has been set, check for parent pages. */
-			if ( $wp_rewrite->front )
-				$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $wp_rewrite->front ) );
-
-			if ( is_day() ) {
-				$trail[] = '<li><a href="' . get_year_link( get_the_time( 'Y' ) ) . '" title="' . get_the_time( esc_attr__( 'Y', 'reactor' ) ) . '">' . get_the_time( __( 'Y', 'reactor' ) ) . '</a></li>';
-				$trail[] = '<li><a href="' . get_month_link( get_the_time( 'Y' ), get_the_time( 'm' ) ) . '" title="' . get_the_time( esc_attr__( 'F', 'reactor' ) ) . '">' . get_the_time( __( 'F', 'reactor' ) ) . '</a></li>';
-				$trail['trail_end'] = get_the_time( __( 'd', 'reactor' ) );
-			}
-
-			elseif ( get_query_var( 'w' ) ) {
-				$trail[] = '<li><a href="' . get_year_link( get_the_time( 'Y' ) ) . '" title="' . get_the_time( esc_attr__( 'Y', 'reactor' ) ) . '">' . get_the_time( __( 'Y', 'reactor' ) ) . '</a></li>';
-				$trail['trail_end'] = sprintf( __( 'Week %1$s', 'reactor' ), get_the_time( esc_attr__( 'W', 'reactor' ) ) );
-			}
-
-			elseif ( is_month() ) {
-				$trail[] = '<li><a href="' . get_year_link( get_the_time( 'Y' ) ) . '" title="' . get_the_time( esc_attr__( 'Y', 'reactor' ) ) . '">' . get_the_time( __( 'Y', 'reactor' ) ) . '</a></li>';
-				$trail['trail_end'] = get_the_time( __( 'F', 'reactor' ) );
-			}
-
-			elseif ( is_year() ) {
-				$trail['trail_end'] = get_the_time( __( 'Y', 'reactor' ) );
-			}
+		if ( is_day() ) {
+			$trail[] = '<li><a href="' . get_year_link( get_the_time( 'Y' ) ) . '" title="' . get_the_time( esc_attr__( 'Y', 'reactor' ) ) . '">' . get_the_time( __( 'Y', 'reactor' ) ) . '</a></li>';
+			$trail[] = '<li><a href="' . get_month_link( get_the_time( 'Y' ), get_the_time( 'm' ) ) . '" title="' . get_the_time( esc_attr__( 'F', 'reactor' ) ) . '">' . get_the_time( __( 'F', 'reactor' ) ) . '</a></li>';
+			$trail['trail_end'] = get_the_time( __( 'd', 'reactor' ) );
+		} elseif ( get_query_var( 'w' ) ) {
+			$trail[] = '<li><a href="' . get_year_link( get_the_time( 'Y' ) ) . '" title="' . get_the_time( esc_attr__( 'Y', 'reactor' ) ) . '">' . get_the_time( __( 'Y', 'reactor' ) ) . '</a></li>';
+			$trail['trail_end'] = sprintf( __( 'Week %1$s', 'reactor' ), get_the_time( esc_attr__( 'W', 'reactor' ) ) );
+		} elseif ( is_month() ) {
+			$trail[] = '<li><a href="' . get_year_link( get_the_time( 'Y' ) ) . '" title="' . get_the_time( esc_attr__( 'Y', 'reactor' ) ) . '">' . get_the_time( __( 'Y', 'reactor' ) ) . '</a></li>';
+			$trail['trail_end'] = get_the_time( __( 'F', 'reactor' ) );
+		} elseif ( is_year() ) {
+			$trail['trail_end'] = get_the_time( __( 'Y', 'reactor' ) );
 		}
 	}
 
 	/* If viewing search results. */
-	elseif ( is_search() )
+	elseif ( is_search() ) {
 		$trail['trail_end'] = sprintf( __( 'Search results for &quot;%1$s&quot;', 'reactor' ), esc_attr( get_search_query() ) );
-
+	}
+	
 	/* If viewing a 404 error page. */
-	elseif ( is_404() )
+	elseif ( is_404() ) {
 		$trail['trail_end'] = __( '404 Not Found', 'reactor' );
-
+	}
+	
 	/* Allow devs to step in and filter the $trail array. */
 	return apply_filters( 'reactor_breadcrumbs_items', $trail, $args );
 }
@@ -342,16 +371,18 @@ function reactor_breadcrumbs_map_rewrite_tags( $post_id = '', $path = '', $args 
 	$trail = array();
 
 	/* Make sure there's a $path and $post_id before continuing. */
-	if ( empty( $path ) || empty( $post_id ) )
+	if ( empty( $path ) || empty( $post_id ) ) {
 		return $trail;
-
+	}
+	
 	/* Get the post based on the post ID. */
 	$post = get_post( $post_id );
 
 	/* If no post is returned, an error is returned, or the post does not have a 'post' post type, return. */
-	if ( empty( $post ) || is_wp_error( $post ) || 'post' !== $post->post_type )
+	if ( empty( $post ) || is_wp_error( $post ) || 'post' !== $post->post_type ) {
 		return $trail;
-
+	}
+	
 	/* Trim '/' from both sides of the $path. */
 	$path = trim( $path, '/' );
 
@@ -361,29 +392,29 @@ function reactor_breadcrumbs_map_rewrite_tags( $post_id = '', $path = '', $args 
 	/* If matches are found for the path. */
 	if ( is_array( $matches ) ) {
 
-		/* Loop through each of the matches, adding each to the $trail array. */
+		// Loop through each of the matches, adding each to the $trail array.
 		foreach ( $matches as $match ) {
 
-			/* Trim any '/' from the $match. */
+			// Trim any '/' from the $match.
 			$tag = trim( $match, '/' );
 
-			/* If using the %year% tag, add a link to the yearly archive. */
-			if ( '%year%' == $tag )
+			// If using the %year% tag, add a link to the yearly archive.
+			if ( '%year%' == $tag ) {
 				$trail[] = '<li><a href="' . get_year_link( get_the_time( 'Y', $post_id ) ) . '" title="' . get_the_time( esc_attr__( 'Y', 'reactor' ), $post_id ) . '">' . get_the_time( __( 'Y', 'reactor' ), $post_id ) . '</a></li>';
-
-			/* If using the %monthnum% tag, add a link to the monthly archive. */
-			elseif ( '%monthnum%' == $tag )
+			}
+			// If using the %monthnum% tag, add a link to the monthly archive.
+			elseif ( '%monthnum%' == $tag ) {
 				$trail[] = '<li><a href="' . get_month_link( get_the_time( 'Y', $post_id ), get_the_time( 'm', $post_id ) ) . '" title="' . get_the_time( esc_attr__( 'F Y', 'reactor' ), $post_id ) . '">' . get_the_time( __( 'F', 'reactor' ), $post_id ) . '</a></li>';
-
-			/* If using the %day% tag, add a link to the daily archive. */
-			elseif ( '%day%' == $tag )
+			}
+			// If using the %day% tag, add a link to the daily archive.
+			elseif ( '%day%' == $tag ) {
 				$trail[] = '<li><a href="' . get_day_link( get_the_time( 'Y', $post_id ), get_the_time( 'm', $post_id ), get_the_time( 'd', $post_id ) ) . '" title="' . get_the_time( esc_attr__( 'F j, Y', 'reactor' ), $post_id ) . '">' . get_the_time( __( 'd', 'reactor' ), $post_id ) . '</a></li>';
-
-			/* If using the %author% tag, add a link to the post author archive. */
-			elseif ( '%author%' == $tag )
+			}
+			// If using the %author% tag, add a link to the post author archive.
+			elseif ( '%author%' == $tag ) {
 				$trail[] = '<li><a href="' . get_author_posts_url( $post->post_author ) . '" title="' . esc_attr( get_the_author_meta( 'display_name', $post->post_author ) ) . '">' . get_the_author_meta( 'display_name', $post->post_author ) . '</a></li>';
-
-			/* If using the %category% tag, add a link to the first category archive to match permalinks. */
+			}
+			// If using the %category% tag, add a link to the first category archive to match permalinks.
 			elseif ( '%category%' == $tag && 'category' !== $args["singular_{$post->post_type}_taxonomy"] ) {
 
 				/* Get the post categories. */
@@ -430,9 +461,10 @@ function reactor_breadcrumbs_get_parents( $post_id = '', $path = '' ) {
 	$path = trim( $path, '/' );
 
 	/* If neither a post ID nor path set, return an empty array. */
-	if ( empty( $post_id ) && empty( $path ) )
+	if ( empty( $post_id ) && empty( $path ) ) {
 		return $trail;
-
+	}
+	
 	/* If the post ID is empty, use the path to get the ID. */
 	if ( empty( $post_id ) ) {
 
@@ -440,8 +472,9 @@ function reactor_breadcrumbs_get_parents( $post_id = '', $path = '' ) {
 		$parent_page = get_page_by_path( $path );
 
 		/* If a parent post is found, set the $post_id variable to it. */
-		if ( !empty( $parent_page ) )
+		if ( !empty( $parent_page ) ) {
 			$post_id = $parent_page->ID;
+		}
 	}
 
 	/* If a post ID and path is set, search for a post by the given path. */
@@ -491,9 +524,10 @@ function reactor_breadcrumbs_get_parents( $post_id = '', $path = '' ) {
 	}
 
 	/* If we have parent posts, reverse the array to put them in the proper order for the trail. */
-	if ( isset( $parents ) )
+	if ( isset( $parents ) ) {
 		$trail = array_reverse( $parents );
-
+	}
+	
 	/* Return the trail of parent posts. */
 	return $trail;
 }
@@ -514,9 +548,10 @@ function reactor_breadcrumbs_get_term_parents( $parent_id = '', $taxonomy = '' )
 	$parents = array();
 
 	/* If no term parent ID or taxonomy is given, return an empty array. */
-	if ( empty( $parent_id ) || empty( $taxonomy ) )
+	if ( empty( $parent_id ) || empty( $taxonomy ) ) {
 		return $trail;
-
+	}
+	
 	/* While there is a parent ID, add the parent term link to the $parents array. */
 	while ( $parent_id ) {
 
@@ -531,9 +566,10 @@ function reactor_breadcrumbs_get_term_parents( $parent_id = '', $taxonomy = '' )
 	}
 
 	/* If we have parent terms, reverse the array to put them in the proper order for the trail. */
-	if ( !empty( $parents ) )
+	if ( !empty( $parents ) ) {
 		$trail = array_reverse( $parents );
-
+	}
+	
 	/* Return the trail of parent terms. */
 	return $trail;
 }
