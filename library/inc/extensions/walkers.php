@@ -94,7 +94,7 @@ class Nav_Bar_Walker extends Walker_Nav_Menu {
 	 * @param int $depth Depth of page. Used for padding.
 	*/
     function start_lvl( &$output, $depth = 0, $args = array() ) {
-        $output .= '<div class="content"><ul class="side-nav">';
+        $output .= '<div class="content" data-section-content><ul class="side-nav">';
     }	
 	
 	/**
@@ -141,7 +141,7 @@ class Nav_Bar_Walker extends Walker_Nav_Menu {
 		  $output .= ( $depth == 0 ) ? '<div class="' . $section_class . '">' : '';
 		  
 		  // if top level use p.title else use li in dropdown
-          $output .= ( $depth == 0 ) ? '<p' . $id . $value . $class_names .'>' : '<li' . $id . $value . $class_names .'>';
+          $output .= ( $depth == 0 ) ? '<p data-section-title' . $id . $value . $class_names .'>' : '<li' . $id . $value . $class_names .'>';
   
           $attributes  = !empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) . '"' : '';
           $attributes .= !empty( $item->target ) ? ' target="' . esc_attr( $item->target ) . '"' : '';
@@ -210,7 +210,7 @@ class Vertical_Nav_Walker extends Walker_Nav_Menu {
 	 * @param int $depth Depth of page. Used for padding.
 	*/
     function start_lvl( &$output, $depth = 0, $args = array() ) {
-        $output .= '<div class="content"><ul class="side-nav">';
+        $output .= '<div class="content" data-section-content><ul class="side-nav">';
     }	
 	
 	/**
@@ -257,7 +257,7 @@ class Vertical_Nav_Walker extends Walker_Nav_Menu {
 		  $output .= ( $depth == 0 ) ? '<div class="' . $section_class . '">' : '';
 		  
 		  // if top level use p.title else use li in dropdown
-          $output .= ( $depth == 0 ) ? '<p' . $id . $value . $class_names .'>' : '<li' . $id . $value . $class_names .'>';
+          $output .= ( $depth == 0 ) ? '<p data-section-title' . $id . $value . $class_names .'>' : '<li' . $id . $value . $class_names .'>';
   
           $attributes  = !empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) . '"' : '';
           $attributes .= !empty( $item->target ) ? ' target="' . esc_attr( $item->target ) . '"' : '';
