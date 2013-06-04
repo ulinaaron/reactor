@@ -17,13 +17,13 @@
  * 
  * @since 1.0.0
  */
-function reactor_do_reactor_tublog_icons() {
+function reactor_do_tumblog_icons() {
 	if ( reactor_option('tumblog_icons', false) && ( is_home() || is_archive() ) && current_theme_supports('reactor-tumblog-icons') ) {
 		$output = reactor_tumblog_icon();
 		echo $output;
 	}
 }
-add_action('reactor_post_header', 'reactor_do_reactor_tublog_icons', 1);
+add_action('reactor_post_header', 'reactor_do_tumblog_icons', 1);
 
 /**
  * Post featured tag
