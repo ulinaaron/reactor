@@ -32,7 +32,7 @@ if ( 'page' == get_option('show_on_front') && get_option('page_for_posts') && is
     
     <?php reactor_page_after(); ?>
 
-	<?php wp_reset_postdata(); ?>
+	<?php rewind_posts(); ?>
         
 <?php elseif ( !is_home() ) : ?>    
 
