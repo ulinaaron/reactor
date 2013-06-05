@@ -76,7 +76,14 @@ if(!function_exists('reactor_topbar_search')) {
 		$args = apply_filters( 'reactor_top_bar_args', $args );
 		
 		$output  = '<ul class="' . $args['side'] . '"><li class="has-form">';
-		$output .= get_search_form( false );
+		$output .= '<form role="search" method="get" id="searchform" action="' . get_bloginfo('url') . '"><div class="row collapse">';
+		$output .= '<div class="large-8 columns">';
+		$output .= '<input type="text" value="' . get_search_query() . '" name="s" id="s" placeholder="' . esc_attr__('Search', 'reactor') . '" />';
+		$output .= '</div>';
+		$output .= '<div class="large-4 end columns">';
+		$output .= '<input class="button prefix" type="submit" id="searchsubmit" value="' . esc_attr__('Search', 'reactor') . '" />';
+		$output .= '</div>';
+		$output .= '</div></form>';	
 		$output .= '</li></ul>';
 		
 		return apply_filters('reactor_search_form', $output);
