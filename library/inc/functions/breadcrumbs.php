@@ -158,8 +158,6 @@ function reactor_breadcrumbs_get_items( $args = array() ) {
 				$trail = array_merge( $trail, reactor_breadcrumbs_get_parents( '', $path ) );
 			}
 			
-			/* Map the permalink structure tags to actual links. */
-			$trail = array_merge( $trail, reactor_breadcrumbs_map_rewrite_tags( $post_id, get_option( 'permalink_structure' ), $args ) );
 		}
 
 		/* If viewing a singular 'attachment'. */
@@ -351,95 +349,6 @@ function reactor_breadcrumbs_get_items( $args = array() ) {
 	
 	/* Allow devs to step in and filter the $trail array. */
 	return apply_filters( 'reactor_breadcrumbs_items', $trail, $args );
-}
-
-/**
- * Turns %tag% from permalink structures into usable links for the breadcrumb trail.  This feels kind of
- * hackish for now because we're checking for specific %tag% examples and only doing it for the 'post' 
- * post type.  In the future, maybe it'll handle a wider variety of possibilities, especially for custom post
- * types.
- *
- * @since 0.4.0
- * @param int $post_id ID of the post whose parents we want.
- * @param string $path Path of a potential parent page.
- * @param array $args Mixed arguments for the menu.
- * @return array $trail Array of links to the post breadcrumb.
- */
-function reactor_breadcrumbs_map_rewrite_tags( $post_id = '', $path = '', $args = array() ) {
-
-	/* Set up an empty $trail array. */
-	$trail = array();
-
-	/* Make sure there's a $path and $post_id before continuing. */
-	if ( empty( $path ) || empty( $post_id ) ) {
-		return $trail;
-	}
-	
-	/* Get the post based on the post ID. */
-	$post = get_post( $post_id );
-
-	/* If no post is returned, an error is returned, or the post does not have a 'post' post type, return. */
-	if ( empty( $post ) || is_wp_error( $post ) || 'post' !== $post->post_type ) {
-		return $trail;
-	}
-	
-	/* Trim '/' from both sides of the $path. */
-	$path = trim( $path, '/' );
-
-	/* Split the $path into an array of strings. */
-	$matches = explode( '/', $path );
-
-	/* If matches are found for the path. */
-	if ( is_array( $matches ) ) {
-
-		// Loop through each of the matches, adding each to the $trail array.
-		foreach ( $matches as $match ) {
-
-			// Trim any '/' from the $match.
-			$tag = trim( $match, '/' );
-
-			// If using the %year% tag, add a link to the yearly archive.
-			if ( '%year%' == $tag ) {
-				$trail[] = '<li><a href="' . get_year_link( get_the_time( 'Y', $post_id ) ) . '" title="' . get_the_time( esc_attr__( 'Y', 'reactor' ), $post_id ) . '">' . get_the_time( __( 'Y', 'reactor' ), $post_id ) . '</a></li>';
-			}
-			// If using the %monthnum% tag, add a link to the monthly archive.
-			elseif ( '%monthnum%' == $tag ) {
-				$trail[] = '<li><a href="' . get_month_link( get_the_time( 'Y', $post_id ), get_the_time( 'm', $post_id ) ) . '" title="' . get_the_time( esc_attr__( 'F Y', 'reactor' ), $post_id ) . '">' . get_the_time( __( 'F', 'reactor' ), $post_id ) . '</a></li>';
-			}
-			// If using the %day% tag, add a link to the daily archive.
-			elseif ( '%day%' == $tag ) {
-				$trail[] = '<li><a href="' . get_day_link( get_the_time( 'Y', $post_id ), get_the_time( 'm', $post_id ), get_the_time( 'd', $post_id ) ) . '" title="' . get_the_time( esc_attr__( 'F j, Y', 'reactor' ), $post_id ) . '">' . get_the_time( __( 'd', 'reactor' ), $post_id ) . '</a></li>';
-			}
-			// If using the %author% tag, add a link to the post author archive.
-			elseif ( '%author%' == $tag ) {
-				$trail[] = '<li><a href="' . get_author_posts_url( $post->post_author ) . '" title="' . esc_attr( get_the_author_meta( 'display_name', $post->post_author ) ) . '">' . get_the_author_meta( 'display_name', $post->post_author ) . '</a></li>';
-			}
-			// If using the %category% tag, add a link to the first category archive to match permalinks.
-			elseif ( '%category%' == $tag && 'category' !== $args["singular_{$post->post_type}_taxonomy"] ) {
-
-				/* Get the post categories. */
-				$terms = get_the_category( $post_id );
-
-				/* Check that categories were returned. */
-				if ( $terms ) {
-
-					/* Sort the terms by ID and get the first category. */
-					usort( $terms, '_usort_terms_by_ID' );
-					$term = get_term( $terms[0], 'category' );
-
-					/* If the category has a parent, add the hierarchy to the trail. */
-					if ( 0 !== $term->parent )
-						$trail = array_merge( $trail, reactor_breadcrumbs_get_term_parents( $term->parent, 'category' ) );
-
-					/* Add the category archive link to the trail. */
-					$trail[] = '<li><a href="' . get_term_link( $term, 'category' ) . '" title="' . esc_attr( $term->name ) . '">' . $term->name . '</a></li>';
-				}
-			}
-		}
-	}
-
-	/* Return the $trail array. */
-	return $trail;
 }
 
 /**
