@@ -247,6 +247,9 @@ h2.entry-title.portfolio {
 .portfolio .entry-tags {
 	font-size:0.75em
 }
+.filterable-grid {
+	width:auto!important;
+}
 /* Comments ---------------------- */
 ol.commentlist {
 	margin:0;
