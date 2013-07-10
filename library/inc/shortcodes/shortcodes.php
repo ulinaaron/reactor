@@ -51,7 +51,7 @@ function reactor_add_alerts( $atts, $content = null ) {
 	 
 	$output  = '<div class="alert-box ' . $classes . '">';
 	$output .= do_shortcode( $content );
-	$output .= ( 'false' != $close ) ? '<a class="close" href="">x</a>' : '';
+	$output .= ( 'false' != $close ) ? '<a class="close" href="">&times;</a>' : '';
 	$output .= '</div>';
 		
 	return $output;
