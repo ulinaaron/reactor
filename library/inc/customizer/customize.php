@@ -195,6 +195,18 @@ function reactor_customize_preview_css() {
 add_action('customize_controls_print_styles', 'reactor_customize_preview_css', 99);
 
 /**
+ * Add the customize link to the admin menu
+ *
+ * @since 1.1.8
+ */
+if ( !function_exists('reactor_add_customize_menu') ) {
+	function reactor_add_customize_menu() {
+		add_theme_page('Customize', 'Customize', 'edit_theme_options', 'customize.php');
+	}
+	add_action('admin_menu', 'reactor_add_customize_menu');
+}
+
+/**
  * Register Customizer
  *
  * @author Samuel Wood (Otto) (@Otto42 / ottopress.com)
