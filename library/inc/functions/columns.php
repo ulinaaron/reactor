@@ -74,7 +74,7 @@ function reactor_columns( $columns = '', $echo = true, $sidebar = false, $sideba
 		switch ( $layout ) {
 			case '1c':
 				// subtract 1 and offset by 1 if using tumblog icons
-				if ( $tumblog && ( is_home() || is_archive() ) ) {
+				if ( $tumblog && is_home() ) {
 					$classes[] = 'large-11';
 					$classes[] = 'large-offset-1';
 				} else {
@@ -85,7 +85,7 @@ function reactor_columns( $columns = '', $echo = true, $sidebar = false, $sideba
 			case '3c-r':
 			case '3c-c':
 				// subtract 1 and offset by 1 if using tumblog icons
-				if ( $tumblog && ( is_home() || is_archive() ) ) {
+				if ( $tumblog && is_home() ) {
 					$classes[] = 'large-5';
 					$classes[] = 'large-offset-1';
 				} else {
@@ -102,7 +102,7 @@ function reactor_columns( $columns = '', $echo = true, $sidebar = false, $sideba
 			default:
 				/* 8 is the default number of columns for a page with 1 sidebar
 				subtract 1 and offset by 1 if using tumblog icons */
-				if ( $tumblog && ( is_home() || is_archive() ) ) {
+				if ( $tumblog && is_home() ) {
 					$classes[] = 'large-7';
 					$classes[] = 'large-offset-1';
 				} else {
