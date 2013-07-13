@@ -257,7 +257,7 @@ function reactor_add_custom_gallery( $attr ) {
 	$grid = $columns;
 	$clearing = ( isset( $attr['link'] ) && 'file' == $attr['link'] ) ? 'data-clearing' : '';
 	
-	$output .= "<{$itemtag} class='large-block-grid-{$grid} small-block-grid-2 gallery-item' {$clearing}>";
+	$output .= "<{$itemtag} class='large-block-grid-{$grid} small-block-grid-2 gallery-item clearing-thumbs' {$clearing}>";
 	
 	foreach ( $attachments as $id => $attachment ) {
 		$link = isset( $attr['link'] ) && 'file' == $attr['link'] ? wp_get_attachment_link( $id, $size, false, false ) : wp_get_attachment_link( $id, $size, true, false );

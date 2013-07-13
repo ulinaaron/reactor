@@ -51,32 +51,30 @@ ul, ol, dl {
 #slider-front-page {
 	padding:1.063em 0 0
 }
-/* Temp. fix for pre/postfix buttons */
-input.button.prefix, input.button.postfix {
-	padding-top:0;
-	padding-bottom:0
-}
-/* Temp fix for textarea height */
+/* fix for textarea height */
 textarea {
 	height:auto
 }
-/* Temp fix for image links having extra space in block-grid */
-ul[class*=block-grid] a {
-	line-height:0
+/* fix for gallery spacing */
+.gallery [data-clearing] li {
+	margin-right:0;
+	padding-left:0
 }
-/* Temp fix for top-bar margin */
-.top-bar {
-	margin-bottom:0
-}
-/* Temp fix for top-bar dropdown */
-.top-bar-section .dropdown li a {
-	line-height:45px;
-	padding:0 15px;
-}
-@media only screen and (min-width: 48em) {
-	.top-bar-section .has-dropdown .dropdown li.has-dropdown > a:after {
-		top:7px;
-	}
+/*  fix for h1 in top bar causing SEO nightmare */
+.top-bar .name p {
+	height: 45px;
+    margin: 0;
+    font-size: 16px; }
+.top-bar .name p {
+	line-height: 45px;
+	font-size: 1.0625em;
+	margin: 0; }
+.top-bar .name p a {
+	font-weight: bold;
+	color: white;
+	width: 50%;
+	display: block;
+	padding: 0 15px;
 }
 /* Header ---------------------- */
 .inner-header {
@@ -84,16 +82,21 @@ ul[class*=block-grid] a {
 	margin: 0 0 1.25em;
 	padding:0.438em 0 0
 }
-.site-header h1 {
-	margin-bottom:0
+.site-header .site-title {
+	font-size:2.75em;
+	font-weight:bold;
+	line-height:1.4;
+	margin-bottom:0;
+	text-rendering:optimizeLegibility
 }
-.site-header h1.site-title a {
+.site-header .site-title a {
 	color:#222
 }
-.site-header h2.site-description {
+.site-header .site-description {
 	color:#222;
 	font-size:1.688em;
-	margin-top:0
+	margin-bottom:0;
+	text-rendering:optimizeLegibility
 }
 .site-header .site-logo {
 	float:left;
@@ -249,6 +252,10 @@ h2.entry-title.portfolio {
 }
 .filterable-grid {
 	width:auto!important;
+}
+#Grid .mix{
+    opacity: 0;
+    display: none;
 }
 /* Comments ---------------------- */
 ol.commentlist {

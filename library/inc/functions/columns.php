@@ -25,8 +25,12 @@ function reactor_columns( $columns = '', $echo = true, $sidebar = false, $sideba
 
 	// get the template layout from meta
 	$default = reactor_option('page_layout', '2c-l');
-	$layout = reactor_option('', $default, '_template_layout');
-		
+	$layout =  reactor_option('', $default, '_template_layout');
+	
+	if ( is_page_template('page-templates/side-menu.php') ) {
+		$layout = 'side-menu';
+	}
+	
 	// check if tumblog icons are used in blog
 	$tumblog = reactor_option('tumblog_icons', false);
 		

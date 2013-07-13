@@ -81,7 +81,7 @@ if ( !function_exists('reactor_wp_helpers') ) {
 		// changes excerpt more link
 		add_filter('excerpt_more', 'reactor_excerpt_more');
 		// custom excerpt length
-		add_filter('excerpt_length', 'reactor_excerpt_length', 999 );
+		add_filter('excerpt_length', 'reactor_excerpt_length', 999);
 		// changes content more link
 		add_filter('the_content_more_link', 'reactor_content_more', 10, 2); 
 		
@@ -196,10 +196,10 @@ function reactor_img_unautop( $content ) {
  *
  * @since 1.0.0
  */
-function reactor_excerpt_more( $more ) {
+function reactor_excerpt_more( $output ) {
 	global $post;
 	$readmore = reactor_option('post_readmore', 'Read more &raquo;');
-	return '&hellip;  <a href="' . get_permalink( $post->ID ) . '" title="Read ' . get_the_title( $post->ID ) . '">'.apply_filters('reactor_excerpt_more', $readmore ) . '</a>';
+	return '&hellip;  <a href="' . get_permalink( $post->ID ) . '" title="Read ' . get_the_title( $post->ID ) . '">' . $readmore . '</a>';
 }
 
 /**
@@ -209,7 +209,7 @@ function reactor_excerpt_more( $more ) {
  */
 function reactor_content_more( $link, $link_text ) {
 	$readmore = reactor_option('post_readmore', 'Read more &raquo;');
-	return str_replace( $link_text, apply_filters('reactor_content_more', $readmore ), $link );
+	return str_replace( $link_text, $readmore, $link );
 }
 
 /**

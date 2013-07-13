@@ -309,3 +309,63 @@ class Vertical_Nav_Walker extends Walker_Nav_Menu {
     } 	  
 	
 }
+
+/**
+ * Customize the output of page list for Foundation accordion section
+ *
+ * @since 1.0.0
+ */
+class Side_Menu_Walker extends Walker_Page {
+
+    function start_lvl( &$output, $depth ) {
+        $indent = str_repeat( "\t", $depth );
+        $output .= '<div class="content" data-section-content><ul class="side-nav">';
+    }
+	
+    function end_lvl( &$output, $depth ) {
+        $indent = str_repeat( "\t", $depth );
+        $output .= '</ul></div></div>';
+    }
+
+    function start_el( &$output, $page, $depth, $args, $current_page ) {
+
+        extract( $args, EXTR_SKIP );
+        $classes = array( 'page_item', 'page-item-' . $page->ID );
+		
+            if ( !empty( $current_page ) ) {
+                $_current_page = get_page( $current_page );
+			}
+			
+            if ( isset( $_current_page->ancestors ) && in_array( $page->ID, ( array ) $_current_page->ancestors ) ) {
+                $classes[] = 'current_page_ancestor';
+			}
+			
+            if ( $page->ID == $current_page ) {
+                $classes[] = 'current_page_item active';
+			} elseif ( $_current_page && $page->ID == $_current_page->post_parent ) {
+                $classes[] = 'current_page_parent';
+            } elseif ( $page->ID == get_option('page_for_posts') ) {
+                $classes[] = 'current_page_parent';
+            }
+
+		// create sections
+		$section_class = ( $depth == 0 && in_array('current_page_ancestor', $classes) ) ? 'section active' : 'section';
+		
+		$classes = implode(' ', apply_filters('page_css_class', $classes, $page ) );
+		
+		$output .= ( $depth == 0 ) ? '<div class="' . $section_class . '">' : '';			
+		
+        $output .= ( $depth == 0 ) ? '<p class="' . $classes . ' title" data-section-title>' : '<li class="' . $classes . '">';
+        $output .= '<a href="' . get_page_link( $page->ID ) . '" title="' . esc_attr( wp_strip_all_tags( $page->post_title ) ) . '">';
+        $output .= $args['link_before'] . $page->post_title . $args['link_after'];
+        $output .= '</a>';
+		$output .= ( $depth == 0 && empty( $args['has_children'] ) ) ? '</div>' : '';
+    }
+	
+    function end_el( &$output, $item, $depth ) {
+		if ( $depth > 0 ) {
+			$output .= "</li>";
+		}
+    }
+
+}

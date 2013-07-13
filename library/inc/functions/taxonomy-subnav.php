@@ -26,16 +26,16 @@ if ( !function_exists('reactor_category_submenu') ) {
 		$count = count( $terms );
  
 		if ( $count > 1 ) {
-			$filter_class = ( $args['quicksand'] ) ? ' filter' : '';
+			$filter_class = ( $args['quicksand'] ) ? ' filter-nav' : '';
 			$output  = '<div class="category-submenu"><dl class="sub-nav' . $filter_class . '"><dt>' . __('Categories: ', 'reactor') . '</dt>';
 			if ( $args['quicksand'] ) {
-				$output .= '<div class="category-submenu"><dd class="segment-1 selected-1 active"><a data-value="all" href="#">' . $args['all_link'] . '</a></dd>';
+				$output .= '<div class="category-submenu"><dd class="filter active" data-filter="all"><a>' . $args['all_link'] . '</a></dd>';
 			}
 			$current_category = single_cat_title('', false); $i = 2;
 			foreach ( $terms as $term ) {
 				$active = ( $term->name == $current_category ) ? 'active' : '';
 				if ( $args['quicksand'] ) {
-					$output .= '<dd class="segment-' . $i . '"><a href="#" data-value="term-' . $term->term_id . '">' . $term->name . '</a></dd>';
+					$output .= '<dd class="filter" data-filter="' . $term->slug . '"><a>' . $term->name . '</a></dd>';
 				} else {
 					$output .= '<dd class="' . $active . '"><a href="' . get_term_link( $term->slug, $args['taxonomy'] ) . '">' . $term->name . '</a></dd>';
 				}

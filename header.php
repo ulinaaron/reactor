@@ -20,6 +20,8 @@
 
 <body <?php body_class(); ?>>
 
+	<?php reactor_body_inside(); ?>
+
     <div id="page" class="hfeed site"> 
     
         <?php reactor_header_before(); ?>

@@ -19,6 +19,17 @@ function reactor_head() {
 }
 
 /**
+ * Register hook: reactor_page_before
+ *
+ * in header.php before #page 
+ * and after opening body tag
+ * @since 1.0.0 
+ */
+function reactor_body_inside() {
+	do_action('reactor_body_inside');
+}
+
+/**
  * Register hook: reactor_header_before
  *
  * in header.php before header tag

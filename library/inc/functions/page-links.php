@@ -69,8 +69,8 @@ if ( !function_exists('reactor_page_links') ) {
 				'current' => $current,
 				'show_all' => false,
 				'prev_next' => true,
-				'prev_text' => __('&laquo; Previous'),
-				'next_text' => __('Next &raquo;'),
+				'prev_text' => __('&laquo; Previous', 'reactor'),
+				'next_text' => __('Next &raquo;', 'reactor'),
 				'end_size' => 2,
 				'mid_size' => 3,
 				'add_args' => false,
@@ -118,7 +118,7 @@ if ( !function_exists('reactor_page_links') ) {
 						$page_links[] = "<li><a class='page-numbers' href='" . esc_url( $link ) . "'>$n_display</a></li>";
 						$dots = true;
 					elseif ( $dots && !$show_all ) :
-						$page_links[] = '<li><a class="page-numbers dots">' . __( '&hellip;' ) . '</a></li>';
+						$page_links[] = '<li><a class="page-numbers dots">' . __('&hellip;', 'reactor') . '</a></li>';
 						$dots = false;
 					endif;
 				endif;

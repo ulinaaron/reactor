@@ -59,7 +59,7 @@ function reactor_do_standard_header_titles() {
 	}
     elseif ( !get_post_format() && !is_page_template('page-templates/front-page.php') ) {  ?>    
 		<?php if ( is_single() ) { ?>
-		<h2 class="entry-title"><?php the_title(); ?></h2>
+		<h1 class="entry-title"><?php the_title(); ?></h1>
 		<?php } else { ?>
 		<h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf(  __('%s', 'reactor'), the_title_attribute('echo=0') ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 		<?php } ?>

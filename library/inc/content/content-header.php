@@ -72,10 +72,10 @@ function reactor_do_title_logo() { ?>
 					</a>
 				</div><!-- .site-logo -->
 				<?php endif; // end if logo ?>
-				<hgroup>
-					<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo('name'); ?></a></h1>
-					<h2 class="site-description"><?php bloginfo('description'); ?></h2>
-				</hgroup>
+				<div class="title-area">
+					<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo('name'); ?></a></p>
+					<p class="site-description"><?php bloginfo('description'); ?></p>
+				</div>
 			</div><!-- .column -->
 		</div><!-- .row -->
 	</div><!-- .inner-header -->  
@@ -123,7 +123,7 @@ add_action('reactor_header_inside', 'reactor_do_nav_bar', 2);
 function reactor_do_mobile_nav() {
 	if ( reactor_option('mobile_menu', 1) && has_nav_menu('main-menu') ) { ?> 
 		<nav id="mobile-menu" class="show-for-small" role="navigation">
-			<div class="section-container accordion" data-section="accordion">
+			<div class="section-container accordion" data-section="accordion" data-options="one_up:false">
 				<?php reactor_main_menu(); ?>
 			</div>
 		</nav>

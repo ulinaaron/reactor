@@ -53,7 +53,7 @@ $number_posts = reactor_option('portfolio_number_posts', 20); ?>
                     
                     <?php reactor_loop_before(); ?>
                     
-                    <ul class="multi-column filterable-grid large-block-grid-<?php echo $post_columns ?>">
+                    <ul id="Grid" class="multi-column filterable-grid large-block-grid-<?php echo $post_columns ?>">
                          
 						<?php while ( $portfolio_query->have_posts() ) : $portfolio_query->the_post(); global $more; $more = 0; ?>     
 							
@@ -63,15 +63,16 @@ $number_posts = reactor_option('portfolio_number_posts', 20); ?>
                             $the_terms = get_the_terms($the_id, 'portfolio-category');		
                             if ( $the_terms && !is_wp_error( $the_terms ) ) : 	
                                 $cat_array = array();
+								$cat_array[] = 'mix';
                                 foreach( $the_terms as $the_term ) {
-                                    $cat_array[] = 'term-' . $the_term->term_id;
-                                }					
+                                    $cat_array[] = $the_term->slug;
+                                }
                                 $port_cats = join( ' ', $cat_array ); 
                             endif; ?>
                             
                         <?php reactor_post_before(); ?>    
                 
-                        <li class="<?php echo $port_cats; ?>" data-id="<?php echo $the_id; ?>">
+                        <li class="<?php echo $port_cats; ?>" data-name="<?php the_title(); ?>">
                         
 							<?php // display newspage post format
                             get_template_part('post-formats/format', 'portfolio'); ?>

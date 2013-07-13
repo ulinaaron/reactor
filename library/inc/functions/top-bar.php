@@ -21,7 +21,7 @@ if ( !function_exists('reactor_top_bar') ) {
 			'fixed'      => false,
 			'contained'  => true,
 			'sticky'     => false,
-		 );
+		);
 		$args = wp_parse_args( $args, $defaults );
 		$args = apply_filters( 'reactor_top_bar_args', $args );
 		
@@ -33,7 +33,7 @@ if ( !function_exists('reactor_top_bar') ) {
 		$classes = array(); $output = '';
 		$classes[] = ( $args['fixed'] ) ? 'fixed' : '';
 		$classes[] = ( $args['contained'] ) ? 'contain-to-grid' : '';
-		$classes[] = ( $args['sticky'] ) ? 'sticky-top-bar' : '';
+		$classes[] = ( $args['sticky'] ) ? 'sticky' : '';
 		$classes = array_filter( $classes );
 		$classes = implode( ' ', array_map( 'esc_attr', $classes ) );
 		
@@ -43,7 +43,7 @@ if ( !function_exists('reactor_top_bar') ) {
 				$output .= '<nav class="top-bar">';
 					$output .= '<ul class="title-area">';
 						$output .= '<li class="name">';
-							$output .= '<h1><a href="' . $args['title_url'].'">' . $args['title'] . '</a></h1>';
+							$output .= '<p><a href="' . $args['title_url'].'">' . $args['title'] . '</a></p>';
 						$output .= '</li>';
 						$output .= '<li class="toggle-topbar menu-icon"><a href="#"><span>' . $args['menu_name'] . '</span></a></li>';
 					$output .= '</ul>';
@@ -76,7 +76,7 @@ if(!function_exists('reactor_topbar_search')) {
 		$args = apply_filters( 'reactor_top_bar_args', $args );
 		
 		$output  = '<ul class="' . $args['side'] . '"><li class="has-form">';
-		$output .= '<form role="search" method="get" id="searchform" action="' . get_bloginfo('url') . '"><div class="row collapse">';
+		$output .= '<form role="search" method="get" id="searchform" action="' . home_url() . '"><div class="row collapse">';
 		$output .= '<div class="large-8 small-8 columns">';
 		$output .= '<input type="text" value="' . get_search_query() . '" name="s" id="s" placeholder="' . esc_attr__('Search', 'reactor') . '" />';
 		$output .= '</div>';

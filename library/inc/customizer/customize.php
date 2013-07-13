@@ -197,7 +197,7 @@ add_action('customize_controls_print_styles', 'reactor_customize_preview_css', 9
 /**
  * Add the customize link to the admin menu
  *
- * @since 1.1.8
+ * @since 1.0.0
  */
 if ( !function_exists('reactor_add_customize_menu') ) {
 	function reactor_add_customize_menu() {

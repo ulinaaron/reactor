@@ -17,24 +17,13 @@
         <div id="content" role="main">
         	<div class="row">
             	
-                <div id="side-menu" class="<?php reactor_columns( array(3, 12) ); ?>">
-                	<?php if ( has_nav_menu('side-menu') ) : ?>
-                    
-						<?php // if accordion style then wrap with data-section div
-						if ( 'accordion' == reactor_option('side_nav_type', 'accordion') ) : ?>
-                        <div class="section-container accordion" data-section="accordion">
-                        
-                            <?php reactor_side_menu(); ?>
-                        
-                        </div><!-- .section-container -->
-                        <?php // else just output the side nav menu
-						else : reactor_side_menu(); ?>
-                        
-                    	<?php endif; ?>
-                    <?php endif; ?> 
-				</div><!-- #side-menu -->      
+                <div id="side-menu" class="<?php reactor_columns('', true, true); ?>">
+				
+                    <?php reactor_side_menu(); ?>
+					
+				</div><!-- #side-menu -->
             
-                <div class="<?php reactor_columns( array(9, 12) ); ?>">
+                <div class="<?php reactor_columns(); ?>">
                 
                 <?php reactor_inner_content_before(); ?>
                 
