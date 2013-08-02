@@ -18,20 +18,22 @@
 	}
     }
 
-	/* prevent default if menu links are # */
-	$('nav a').each(function() {
-		var nav = $(this); 
-		if(nav.attr('href') == '#') {
-			$(this).on('click', function(e){ 
-				e.preventDefault();
-			});
-		}
-	});
-
-	/* MixItUp - http://mixitup.io/ */
-    $(function(){
-        $('#Grid').mixitup();
+    /* prevent default if menu links are # */
+    $('nav a').each(function() {
+        var nav = $(this); 
+        if(nav.attr('href') == '#') {
+            $(this).on('click', function(e){ 
+                e.preventDefault();
+            });
+        }
     });
+
+    /* MixItUp - http://mixitup.io/ */
+    if($().mixitup) {
+        $(function(){
+            $('#Grid').mixitup();
+        });
+    }
 	
   }); /* end $(document).ready */
 
