@@ -26,12 +26,13 @@
  * 13. Add blockquote tags around quote posts
  * 14. Add flex-video div around video posts
  * 15. Changes the CSS for the admin bar on the front end
- * 16. Add classes to a single post
- * 17. Add classes to body tag
- * 18. Return dynamic sidebar content
- * 19. Change Sticky Class
- * 20. Add Comment Reply Class
- * 21. Exclude Front Page Posts
+ * 16. Remove WP CSS for Admin Bar on front end
+ * 17. Add classes to a single post
+ * 18. Add classes to body tag
+ * 19. Return dynamic sidebar content
+ * 20. Change Sticky Class
+ * 21. Add Comment Reply Class
+ * 22. Exclude Front Page Posts
  */
 
 /**
@@ -60,6 +61,7 @@ if ( !function_exists('reactor_wp_helpers') ) {
 		add_action('wp_head', 'reactor_remove_recent_comments_style', 1);
 		// fixes CSS output for front end admin bar
 		add_action('wp_head', 'reactor_admin_bar_fix', 5);
+		add_action('get_header', 'reactor_remove_admin_bar_css');
 		
 		// adds class to body
 		add_filter('body_class', 'reactor_topbar_body_class');
@@ -122,8 +124,6 @@ function reactor_head_cleanup() {
 	remove_action('wp_head', 'index_rel_link');
 	// WP version
 	remove_action('wp_head', 'wp_generator');
-	// remove wp admin bar css
-	remove_action('wp_head', '_admin_bar_bump_cb');
 	// previous link
 	remove_action('wp_head', 'parent_post_rel_link', 10, 0);
 	// start link
@@ -334,7 +334,18 @@ function reactor_admin_bar_fix() {
 }
 
 /**
- * 16. Add classes to a single post
+ * 16. Remove default CSS for WP admin bar on front end
+ *
+ * @since 1.2.0
+ */
+function reactor_remove_admin_bar_css() {
+	if ( !is_admin() && is_admin_bar_showing() ) {
+		remove_action('wp_head', '_admin_bar_bump_cb');
+	}
+}
+
+/**
+ * 17. Add classes to a single post
  *
  * @link http://codex.wordpress.org/Function_Reference/post_class#Add_Classes_By_Filters
  * @since 1.0.0
@@ -351,7 +362,7 @@ function reactor_single_post_class( $classes ) {
 }
 
 /**
- * 17. Add classes to body tag
+ * 18. Add classes to body tag
  *
  * @since 1.0.0
  */
@@ -375,7 +386,7 @@ function reactor_topbar_body_class( $classes ) {
 }
 
 /**
- * 18. Return dynamic sidebar content
+ * 19. Return dynamic sidebar content
  * for some reason this isn't in WP
  *
  * @link http://core.trac.wordpress.org/ticket/13169
@@ -390,7 +401,7 @@ function get_dynamic_sidebar( $index = 1 ) {
 }
 
 /**
- * 19. Change Sticky Class
+ * 20. Change Sticky Class
  * sticky class on posts conflicts with Foundation js
  *
  * @since 1.0.0
@@ -407,7 +418,7 @@ function reactor_change_sticky_class( $classes ) {
 }
 
 /**
- * 20. Add Comment Reply Class
+ * 21. Add Comment Reply Class
  * add the button class to the reply link in comments
  *
  * @since 1.0.0
@@ -417,7 +428,7 @@ function reactor_comment_reply_class( $link ) {
 }
 
 /**
- * 21. Exclude Front Page Posts
+ * 22. Exclude Front Page Posts
  * If option is set in customizer to exlude front page posts
  * then remove them from the main query
  *
