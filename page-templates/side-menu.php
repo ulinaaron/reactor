@@ -17,23 +17,23 @@
         <div id="content" role="main">
         	<div class="row">
             	
-                <div id="side-menu" class="<?php reactor_columns('', true, true); ?>">
-				
-                    <?php reactor_side_menu(); ?>
-					
-				</div><!-- #side-menu -->
-            
-                <div class="<?php reactor_columns(); ?>">
+                <div class="<?php reactor_columns(); ?> push-3">
                 
                 <?php reactor_inner_content_before(); ?>
                 
-					<?php // get the page loop
+		<?php // get the page loop
                     get_template_part('loops/loop', 'page'); ?>
                     
                 <?php reactor_inner_content_after(); ?>
                 
                 </div><!-- .columns -->
                
+                <div id="side-menu" class="<?php reactor_columns('', true, true); ?> pull-9">
+				
+                    <?php reactor_side_menu(); ?>
+					
+		</div><!-- #side-menu -->
+            
             </div><!-- .row -->
         </div><!-- #content -->
         
