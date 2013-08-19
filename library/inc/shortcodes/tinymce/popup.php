@@ -34,7 +34,7 @@ $shortcode = new reactor_shortcodes( $popup );
 					<tbody>
 						<tr class="form-row">
 							<?php if( ! $shortcode->has_child ) : ?><td class="label">&nbsp;</td><?php endif; ?>
-							<td class="field"><a href="#" class="button-primary reactor-insert">Insert Shortcode</a></td>							
+							<td class="field"><a href="#" class="button-primary reactor-insert"><?php _e('Insert Shortcode', 'reactor'); ?></a></td>							
 						</tr>
 					</tbody>
 				

@@ -15,12 +15,19 @@ class ReactorShortcodes {
     {	
     	require_once( get_template_directory() . '/library/inc/shortcodes/shortcodes.php' );
     	define('REACTOR_TINYMCE_URI', get_template_directory_uri() . '/library/inc/shortcodes/tinymce');
-		define('REACTOR_TINYMCE_DIR', get_template_directory_uri() . '/library/inc/shortcodes/tinymce');
+		define('REACTOR_TINYMCE_DIR', get_template_directory() . '/library/inc/shortcodes/tinymce');
 		
         add_action('init', array(&$this, 'init'));
         add_action('admin_init', array(&$this, 'admin_init'));
+		add_filter('mce_external_languages', array(&$this, 'add_tinymce_lang'), 10, 1);
 	}
-	
+
+	function add_tinymce_lang( $arr )
+	{
+		$arr[] = REACTOR_TINYMCE_DIR . '/langs/wp-lang.php';
+		return $arr;
+	}
+		
 	/**
 	 * Registers TinyMCE rich editor buttons
 	 *
@@ -40,12 +47,19 @@ class ReactorShortcodes {
 	
 		if ( get_user_option('rich_editing') == 'true' )
 		{
+			add_filter( 'mce_external_languages', array(&$this, 'wpse_44785_add_tinymce_lang'), 10, 1 );
 			add_filter( 'mce_external_plugins', array(&$this, 'add_rich_plugins') );
 			add_filter( 'mce_buttons', array(&$this, 'register_rich_buttons') );
 		}
 	}
 	
 	// --------------------------------------------------------------------------
+
+	function wpse_44785_add_tinymce_lang( $arr )
+	{
+		$arr[] = REACTOR_TINYMCE_URI . '/langs/wp-langs.php';
+		return $arr;
+	}
 	
 	/**
 	 * Defins TinyMCE rich editor js plugin

@@ -164,8 +164,8 @@
 */		 
 		$slide_fields = array(
 		 	array(
-				'label'	=> 'URL',
-				'desc'	=> 'A URL for the slide title to direct to (ex. http://awtheme.com)',
+				'label'	=> __('URL', 'reactor'),
+				'desc'	=> __('A URL for the slide title to direct to (ex. http://awtheme.com)', 'reactor'),
 				'id'	=> '_slide_url',
 				'type'	=> 'url'
 			),
@@ -173,7 +173,7 @@
 		
 		$layout_fields = array(
 		 	array(
-				'label'	=> 'Select a template layout',
+				'label'	=> __('Select a template layout', 'reactor'),
 				'desc'	=> '',
 				'id'	=> '_template_layout',
 				'type'	=> 'radio',
@@ -196,6 +196,6 @@
  * var $fields array meta box fields
  */
 //$sample_box = new Custom_Add_Meta_Box( '_sample_box', 'Sample Box', 'post', 'normal', 'high', $sample_fields );
-$slide_meta = new Reactor_Add_Meta_Box( 'slide_meta', 'Slide Link', 'slide', 'normal', 'high', $slide_fields );
-$layout_meta = new Reactor_Add_Meta_Box( 'layout_meta', 'Layout', array('post', 'page', 'portfolio'), 'side', 'default', $layout_fields );
+$slide_meta = new Reactor_Add_Meta_Box( 'slide_meta', __('Slide Link', 'reactor'), 'slide', 'normal', 'high', $slide_fields );
+$layout_meta = new Reactor_Add_Meta_Box( 'layout_meta', __('Layout', 'reactor'), array('post', 'page', 'portfolio'), 'side', 'default', $layout_fields );
 

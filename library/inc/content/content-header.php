@@ -94,7 +94,7 @@ function reactor_do_nav_bar() {
 		$nav_class = ( reactor_option('mobile_menu', 1) ) ? 'class="hide-for-small" ' : ''; ?>
 		<div class="main-nav">
 			<nav id="menu" <?php echo $nav_class; ?>role="navigation">
-				<div class="section-container horizontal-nav" data-section="horizontal-nav">
+				<div class="section-container horizontal-nav" data-section="horizontal-nav" data-options="one_up:false;">
 					<?php reactor_main_menu(); ?>
 				</div>
 			</nav>

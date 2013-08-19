@@ -16,44 +16,44 @@ $reactor_shortcodes['alert'] = array(
 	'no_preview' => true,
 	'params'     => array(
 		'content' => array(
-			'std'   => 'Alert Text',
+			'std'   => __('Alert Text', 'reactor'),
 			'type'  => 'text',
-			'label' => __('Alert\'s Text', 'textdomain'),
-			'desc'  => __('Add the alert\'s text', 'textdomain'),
+			'label' => __('Alert\'s Text', 'reactor'),
+			'desc'  => __('Add the alert\'s text', 'reactor'),
 		),
 		'type' => array(
 			'type'    => 'select',
-			'label'   => __('Alert Style', 'textdomain'),
-			'desc'    => __('Select the alert\'s style, ie the alert\'s colour', 'textdomain'),
+			'label'   => __('Alert Style', 'reactor'),
+			'desc'    => __('Select the alert\'s style, ie the alert\'s colour', 'reactor'),
 			'options' => array(
-				''          => 'Standard',
-				'success'   => 'Success',
-				'alert'     => 'Alert',
-				'secondary' => 'Secondary'
+				''          => __('Standard', 'reactor'),
+				'success'   => __('Success', 'reactor'),
+				'alert'     => __('Alert', 'reactor'),
+				'secondary' => __('Secondary', 'reactor'),
 			)
 		),
 		'shape' => array(
 			'type'    => 'select',
-			'label'   => __('Alert Type', 'textdomain'),
-			'desc'    => __('Select the alert\'s type', 'textdomain'),
+			'label'   => __('Alert Type', 'reactor'),
+			'desc'    => __('Select the alert\'s type', 'reactor'),
 			'options' => array(
-				''       => 'Square',
-				'radius' => 'Radius',
-				'round'  => 'Round'
+				''       => __('Square', 'reactor'),
+				'radius' => __('Radius', 'reactor'),
+				'round'  => __('Round', 'reactor'),
 			)
 		),
 		'close' => array(
 			'type'    => 'select',
-			'label'   => __('Closing X', 'textdomain'),
-			'desc'    => __('Display a X on the alert to close it', 'textdomain'),
+			'label'   => __('Closing X', 'reactor'),
+			'desc'    => __('Display a X on the alert to close it', 'reactor'),
 			'options' => array(
-				'true'  => 'True',
-				'false' => 'False'
+				'true'  => __('True', 'reactor'),
+				'false' => __('False', 'reactor'),
 			)
 		)
 	),
-	'shortcode' => '[alert shape="{{shape}}" type="{{type}}" close="{{close}}"] {{content}} [/alert]',
-	'popup_title' => __('Insert Alert Shortcode', 'textdomain')
+	'shortcode'   => '[alert shape="{{shape}}" type="{{type}}" close="{{close}}"] {{content}} [/alert]',
+	'popup_title' => __('Insert Alert Shortcode', 'reactor')
 );
 
 /**
@@ -63,97 +63,97 @@ $reactor_shortcodes['button'] = array(
 	'no_preview' => false,
 	'params'     => array(
 		'content' => array(
-			'std'   => 'Button Text',
+			'std'   => __('Button Text', 'reactor'),
 			'type'  => 'text',
-			'label' => __('Button\'s Text', 'textdomain'),
-			'desc'  => __('Add the button\'s text', 'textdomain'),
+			'label' => __('Button\'s Text', 'reactor'),
+			'desc'  => __('Add the button\'s text', 'reactor'),
 		),
 		'url' => array(
 			'std'   => '',
 			'type'  => 'text',
-			'label' => __('Button URL', 'textdomain'),
-			'desc'  => __('Add the button\'s url eg http://example.com', 'textdomain')
+			'label' => __('Button URL', 'reactor'),
+			'desc'  => __('Add the button\'s url eg http://example.com', 'reactor')
 		),
 		'type' => array(
 			'type'    => 'select',
-			'label'   => __('Button Style', 'textdomain'),
-			'desc'    => __('Select the button\'s style, ie the button\'s colour', 'textdomain'),
+			'label'   => __('Button Style', 'reactor'),
+			'desc'    => __('Select the button\'s style, ie the button\'s colour', 'reactor'),
 			'options' => array(
-				''          => 'Standard',
-				'success'   => 'Success',
-				'alert'     => 'Alert',
-				'secondary' => 'Secondary'
+				''          => __('Standard', 'reactor'),
+				'success'   => __('Success', 'reactor'),
+				'alert'     => __('Alert', 'reactor'),
+				'secondary' => __('Secondary', 'reactor'),
 			)
 		),
 		'size' => array(
 			'type'    => 'select',
-			'label'   => __('Button Size', 'textdomain'),
-			'desc'    => __('Select the button\'s size', 'textdomain'),
+			'label'   => __('Button Size', 'reactor'),
+			'desc'    => __('Select the button\'s size', 'reactor'),
 			'options' => array(
-				''       => 'Medium',
-				'tiny'   => 'Tiny',
-				'small'  => 'Small',
-				'large'  => 'Large'
+				''       => __('Medium', 'reactor'),
+				'tiny'   => __('Tiny', 'reactor'),
+				'small'  => __('Small', 'reactor'),
+				'large'  => __('Large', 'reactor'),
 			)
 		),
 		'shape' => array(
 			'type'    => 'select',
-			'label'   => __('Button Type', 'textdomain'),
-			'desc'    => __('Select the button\'s type', 'textdomain'),
+			'label'   => __('Button Type', 'reactor'),
+			'desc'    => __('Select the button\'s type', 'reactor'),
 			'options' => array(
-				''       => 'Square',
-				'radius' => 'Radius',
-				'round'  => 'Round'
+				''       => __('Square', 'reactor'),
+				'radius' => __('Radius', 'reactor'),
+				'round'  => __('Round', 'reactor'),
 			)
 		),
 		'expand' => array(
 			'type'    => 'select',
-			'label'   => __('Expand', 'textdomain'),
-			'desc'    => __('Expands the button to full width', 'textdomain'),
+			'label'   => __('Expand', 'reactor'),
+			'desc'    => __('Expands the button to full width', 'reactor'),
 			'options' => array(
-				'false' => 'False',
-				'true'  => 'True'
+				'false' => __('False', 'reactor'),
+				'true'  => __('True', 'reactor'),
 			)
 		),
 		'disabled' => array(
 			'type'    => 'select',
-			'label'   => __('Disabled', 'textdomain'),
-			'desc'    => __('Button will be in a disabled state', 'textdomain'),
+			'label'   => __('Disabled', 'reactor'),
+			'desc'    => __('Button will be in a disabled state', 'reactor'),
 			'options' => array(
-				'false' => 'False',
-				'true'  => 'True'
+				'false' => __('False', 'reactor'),
+				'true'  => __('True', 'reactor'),
 			)
 		)
 	),
 	'shortcode' => '[button url="{{url}}" shape="{{shape}}" size="{{size}}" type="{{type}}" expand="{{expand}}" disabled="{{disabled}}"] {{content}} [/button]',
-	'popup_title' => __('Insert Button Shortcode', 'textdomain')
+	'popup_title' => __('Insert Button Shortcode', 'reactor')
 );
 
 /**
  * Columns Config
  */
 $reactor_shortcodes['columns'] = array(
-	'params' => array(),
-	'shortcode' => ' {{child_shortcode}} ', // as there is no wrapper shortcode
-	'popup_title' => __('Insert Columns Shortcode', 'textdomain'),
-	'no_preview' => true,
+	'params'      => array(),
+	'shortcode'   => ' {{child_shortcode}} ', // as there is no wrapper shortcode
+	'popup_title' => __('Insert Columns Shortcode', 'reactor'),
+	'no_preview'  => true,
 	
 	'child_shortcode' => array(
 		'params' => array(
 			'first_last' => array(
 				'type'    => 'select',
-				'label'   => __('First or Last', 'textdomain'),
-				'desc'    => __('Select if this column is the first or last in the row', 'textdomain'),
+				'label'   => __('First or Last', 'reactor'),
+				'desc'    => __('Select if this column is the first or last in the row', 'reactor'),
 				'options' => array(
 					''      => '',
-					'first' => 'First',
-					'last'  => 'Last'
+					'first' => __('First', 'reactor'),
+					'last'  => __('Last', 'reactor'),
 				)
 			),
 			'large' => array(
 				'type'    => 'select',
-				'label'   => __('Large Grid', 'textdomain'),
-				'desc'    => __('Select the number of columns for the large screen grid', 'textdomain'),
+				'label'   => __('Large Grid', 'reactor'),
+				'desc'    => __('Select the number of columns for the large screen grid', 'reactor'),
 				'options' => array(
 					'12' => '12',
 					'11' => '11',
@@ -171,8 +171,8 @@ $reactor_shortcodes['columns'] = array(
 			),
 			'small' => array(
 				'type'    => 'select',
-				'label'   => __('Small Grid', 'textdomain'),
-				'desc'    => __('Select the number of columns for the small screen grid', 'textdomain'),
+				'label'   => __('Small Grid', 'reactor'),
+				'desc'    => __('Select the number of columns for the small screen grid', 'reactor'),
 				'options' => array(
 					'12' => '12',
 					'11' => '11',
@@ -189,14 +189,14 @@ $reactor_shortcodes['columns'] = array(
 				)
 			),
 			'content' => array(
-				'std' => '',
-				'type' => 'textarea',
-				'label' => __('Column Content', 'textdomain'),
-				'desc' => __('Add the column content.', 'textdomain'),
+				'std'   => '',
+				'type'  => 'textarea',
+				'label' => __('Column Content', 'reactor'),
+				'desc'  => __('Add the column content.', 'reactor'),
 			)
 		),
-		'shortcode' => '[column large="{{large}}" small="{{small}}" first_last="{{first_last}}"] {{content}} [/column] ',
-		'clone_button' => __('Add Column', 'textdomain')
+		'shortcode'    => '[column large="{{large}}" small="{{small}}" first_last="{{first_last}}"] {{content}} [/column] ',
+		'clone_button' => __('Add Column', 'reactor')
 	)
 );
 
@@ -206,33 +206,33 @@ $reactor_shortcodes['columns'] = array(
 $reactor_shortcodes['flex_video'] = array(
 	'no_preview' => true,
 	'params'     => array(
-		'widescreen'   => array(
+		'widescreen' => array(
 			'type'  => 'select',
-			'label' => __('Widescreen', 'textdomain'),
-			'desc'  => __('Select if the video widescreen', 'textdomain'),
+			'label' => __('Widescreen', 'reactor'),
+			'desc'  => __('Select if the video widescreen', 'reactor'),
 			'options' => array(
-				'true'  => 'True',
-				'false' => 'False'
+				'true'  => __('True', 'reactor'),
+				'false' => __('False', 'reactor'),
 			)
 		),
-		'vimeo'   => array(
+		'vimeo' => array(
 			'type'  => 'select',
-			'label' => __('Vimeo', 'textdomain'),
-			'desc'  => __('Select if the video is vimeo to remove padding', 'textdomain'),
+			'label' => __('Vimeo', 'reactor'),
+			'desc'  => __('Select if the video is vimeo to remove padding', 'reactor'),
 			'options' => array(
-				'false' => 'False',
-				'true'  => 'True'
+				'false' => __('False', 'reactor'),
+				'true'  => __('True', 'reactor'),
 			)
 		),
 		'content' => array(
 			'std'   => '',
 			'type'  => 'textarea',
-			'label' => __('Video Embed Code', 'textdomain'),
-			'desc'  => __('Enter the code to embed the video', 'textdomain'),
+			'label' => __('Video Embed Code', 'reactor'),
+			'desc'  => __('Enter the code to embed the video', 'reactor'),
 		)
 	),
-	'shortcode' => '[flex_video widescreen="{{widescreen}}" vimeo="{{vimeo}}"] {{content}} [/flex_video]',
-	'popup_title' => __('Insert Flex Video Shortcode', 'textdomain')
+	'shortcode'   => '[flex_video widescreen="{{widescreen}}" vimeo="{{vimeo}}"] {{content}} [/flex_video]',
+	'popup_title' => __('Insert Flex Video Shortcode', 'reactor')
 );
 
 /**
@@ -243,36 +243,36 @@ $reactor_shortcodes['glyph_icon'] = array(
 	'params'     => array(
 		'type'   => array(
 			'type'  => 'select',
-			'label' => __('Icon Cateogry', 'textdomain'),
-			'desc'  => __('Select the category for the icon', 'textdomain'),
+			'label' => __('Icon Cateogry', 'reactor'),
+			'desc'  => __('Select the category for the icon', 'reactor'),
 			'options' => array(
-				'general' => 'General', 
-				'enclosed' => 'Enclosed',
-				'social' => 'Social', 
-				'accessible' => 'Accessible'
+				'general'    => __('General', 'reactor'),
+				'enclosed'   => __('Enclosed', 'reactor'),
+				'social'     => __('Social', 'reactor'),
+				'accessible' => __('Accessible', 'reactor'),
 			)
 		),
-		'icon'   => array(
+		'icon' => array(
 			'std'  => '',
 			'type'  => 'text',
-			'label' => __('Icon', 'textdomain'),
-			'desc'  => __('Enter the name of the icon from http://zurb.com/playground/foundation-icons', 'textdomain')
+			'label' => __('Icon', 'reactor'),
+			'desc'  => __('Enter the name of the icon from http://zurb.com/playground/foundation-icons', 'reactor')
 		),
-		'style'   => array(
+		'style' => array(
 			'std'  => '',
 			'type'  => 'text',
-			'label' => __('Styles', 'textdomain'),
-			'desc'  => __('Enter any styles for the icon as inline CSS ( ie. color: #000; )', 'textdomain')
+			'label' => __('Styles', 'reactor'),
+			'desc'  => __('Enter any styles for the icon as inline CSS ( ie. color: #000; )', 'reactor')
 		),
 		'content' => array(
 			'std'   => '',
 			'type'  => 'textarea',
-			'label' => __('Text', 'textdomain'),
-			'desc'  => __('Enter any text to be displayed with the icon', 'textdomain'),
+			'label' => __('Text', 'reactor'),
+			'desc'  => __('Enter any text to be displayed with the icon', 'reactor'),
 		)
 	),
 	'shortcode' => '[glyph_icon type="{{type}}" icon="{{icon}}" style="{{style}}"] {{content}} [/glyph_icon]',
-	'popup_title' => __('Insert Glyph Icon Shortcode', 'textdomain')
+	'popup_title' => __('Insert Glyph Icon Shortcode', 'reactor')
 );
 
 /**
@@ -282,35 +282,35 @@ $reactor_shortcodes['label'] = array(
 	'no_preview'  => true,
 	'params'      => array(
 		'content' => array(
-			'std'   => 'Label Text',
+			'std'   => __('Label Text', 'reactor'),
 			'type'  => 'text',
-			'label' => __('Alert\'s Text', 'textdomain'),
-			'desc'  => __('Add the label\'s text', 'textdomain'),
+			'label' => __('Alert\'s Text', 'reactor'),
+			'desc'  => __('Add the label\'s text', 'reactor'),
 		),
 		'type' => array(
 			'type'    => 'select',
-			'label'   => __('Label Style', 'textdomain'),
-			'desc'    => __('Select the label\'s style, ie the label\'s colour', 'textdomain'),
+			'label'   => __('Label Style', 'reactor'),
+			'desc'    => __('Select the label\'s style, ie the label\'s colour', 'reactor'),
 			'options' => array(
-				''          => 'Standard',
-				'success'   => 'Success',
-				'alert'     => 'Alert',
-				'secondary' => 'Secondary'
+				''          => __('Standard', 'reactor'),
+				'success'   => __('Success', 'reactor'),
+				'alert'     => __('Alert', 'reactor'),
+				'secondary' => __('Secondary', 'reactor'),
 			)
 		),
 		'shape' => array(
 			'type'    => 'select',
-			'label'   => __('Label Type', 'textdomain'),
-			'desc'    => __('Select the label\'s type', 'textdomain'),
+			'label'   => __('Label Type', 'reactor'),
+			'desc'    => __('Select the label\'s type', 'reactor'),
 			'options' => array(
-				''       => 'Square',
-				'radius' => 'Radius',
-				'round'  => 'Round'
+				''       => __('Square', 'reactor'),
+				'radius' => __('Radius', 'reactor'),
+				'round'  => __('Round', 'reactor'),
 			)
 		)
 	),
-	'shortcode' => '[label shape="{{shape}}" type="{{type}}"] {{content}} [/label]',
-	'popup_title' => __('Insert Label Shortcode', 'textdomain')
+	'shortcode'   => '[label shape="{{shape}}" type="{{type}}"] {{content}} [/label]',
+	'popup_title' => __('Insert Label Shortcode', 'reactor')
 );
 
 /**
@@ -321,31 +321,31 @@ $reactor_shortcodes['panel'] = array(
 	'params'     => array(
 		'callout'   => array(
 			'type'  => 'select',
-			'label' => __('Callout Style', 'textdomain'),
-			'desc'  => __('Callout style is a brighter panel', 'textdomain'),
+			'label' => __('Callout Style', 'reactor'),
+			'desc'  => __('Callout style is a brighter panel', 'reactor'),
 			'options' => array(
-				'false' => 'False',
-				'true'  => 'True'
+				'false' => __('False', 'reactor'),
+				'true'  => __('True', 'reactor'),
 			)
 		),
 		'shape' => array(
 			'type'  => 'select',
-			'label' => __('Label Type', 'textdomain'),
-			'desc'  => __('Select the button\'s type', 'textdomain'),
+			'label' => __('Label Type', 'reactor'),
+			'desc'  => __('Select the button\'s type', 'reactor'),
 			'options' => array(
-				''       => 'Square',
-				'radius' => 'Radius',
+				''       => __('Square', 'reactor'),
+				'radius' => __('Radius', 'reactor'),
 			)
 		),
 		'content' => array(
-			'std'   => 'Panel Text',
+			'std'   => __('Panel Text', 'reactor'),
 			'type'  => 'textarea',
-			'label' => __('Panel\'s Text', 'textdomain'),
-			'desc'  => __('Add the panel\'s text', 'textdomain'),
+			'label' => __('Panel\'s Text', 'reactor'),
+			'desc'  => __('Add the panel\'s text', 'reactor'),
 		)
 	),
 	'shortcode' => '[panel shape="{{shape}}" callout="{{callout}}"] {{content}} [/panel]',
-	'popup_title' => __('Insert Panel Shortcode', 'textdomain')
+	'popup_title' => __('Insert Panel Shortcode', 'reactor')
 );
 
 /**
@@ -354,45 +354,45 @@ $reactor_shortcodes['panel'] = array(
 $reactor_shortcodes['price_table'] = array(
     'params' => array(
         'title' => array(
-            'std' => 'Title',
-            'type' => 'text',
-            'label' => __('Title', 'textdomain'),
-            'desc' => __('Title of the price table', 'textdomain'),
+            'std'   => __('Title', 'reactor'),
+            'type'  => 'text',
+            'label' => __('Title', 'reactor'),
+            'desc'  => __('Title of the price table', 'reactor'),
         ),
         'price' => array(
-            'std' => '0.00',
-            'type' => 'text',
-            'label' => __('Price', 'textdomain'),
-            'desc' => __('Price for the price table', 'textdomain'),
+            'std'   => '0.00',
+            'type'  => 'text',
+            'label' => __('Price', 'reactor'),
+            'desc'  => __('Price for the price table', 'reactor'),
         ),
         'desc' => array(
-			'std' => '',
-            'type' => 'text',
-            'label' => __('Description', 'textdomain'),
-            'desc' => __('Description of the price table', 'textdomain'),
+			'std'   => '',
+            'type'  => 'text',
+            'label' => __('Description', 'reactor'),
+            'desc'  => __('Description of the price table', 'reactor'),
         ),
         'button' => array(
-            'std' => 'Buy Now',
-            'type' => 'text',
-            'label' => __('Button Text', 'textdomain'),
-            'desc' => __('Text for the button on the price table', 'textdomain'),
+            'std'   => __('Buy Now', 'reactor'),
+            'type'  => 'text',
+            'label' => __('Button Text', 'reactor'),
+            'desc'  => __('Text for the button on the price table', 'reactor'),
         ),
 	),
-    'no_preview' => true,
-    'shortcode' => '[price_table title="{{title}}" price="{{price}}" desc="{{desc}}" button="{{button}}"] {{child_shortcode}}  [/price_table]',
-    'popup_title' => __('Insert Price Table Shortcode', 'textdomain'),
+    'no_preview'  => true,
+    'shortcode'   => '[price_table title="{{title}}" price="{{price}}" desc="{{desc}}" button="{{button}}"] {{child_shortcode}}  [/price_table]',
+    'popup_title' => __('Insert Price Table Shortcode', 'reactor'),
     
     'child_shortcode' => array(
         'params' => array(
             'content' => array(
-                'std' => '',
-                'type' => 'textarea',
-                'label' => __('Section Content', 'textdomain'),
-                'desc' => __('Add the tabs content', 'textdomain')
+                'std'   => '',
+                'type'  => 'textarea',
+                'label' => __('Section Content', 'reactor'),
+                'desc'  => __('Add the tabs content', 'reactor')
             )
         ),
-        'shortcode' => '[pt_item] {{content}} [/pt_item]',
-        'clone_button' => __('Add Price Table Item', 'textdomain')
+        'shortcode'    => '[pt_item] {{content}} [/pt_item]',
+        'clone_button' => __('Add Price Table Item', 'reactor')
     )
 );
 
@@ -401,32 +401,32 @@ $reactor_shortcodes['price_table'] = array(
  */
 $reactor_shortcodes['progress_bar'] = array(
 	'no_preview' => true,
-	'params'     => array(
+	'params' => array(
 		'type' => array(
 			'type'    => 'select',
-			'label'   => __('Progress Bar Style', 'textdomain'),
-			'desc'    => __('Select the progress bar\'s style, ie the progress bar\'s colour', 'textdomain'),
+			'label'   => __('Progress Bar Style', 'reactor'),
+			'desc'    => __('Select the progress bar\'s style, ie the progress bar\'s colour', 'reactor'),
 			'options' => array(
-				''          => 'Standard',
-				'success'   => 'Success',
-				'alert'     => 'Alert',
-				'secondary' => 'Secondary'
+				''          => __('Standard', 'reactor'),
+				'success'   => __('Success', 'reactor'),
+				'alert'     => __('Alert', 'reactor'),
+				'secondary' => __('Secondary', 'reactor'),
 			)
 		),
 		'shape' => array(
 			'type'    => 'select',
-			'label'   => __('Progress Bar Type', 'textdomain'),
-			'desc'    => __('Select the progress bar\'s type', 'textdomain'),
+			'label'   => __('Progress Bar Type', 'reactor'),
+			'desc'    => __('Select the progress bar\'s type', 'reactor'),
 			'options' => array(
-				''       => 'Square',
-				'radius' => 'Radius',
-				'round'  => 'Round'
+				''       => __('Square', 'reactor'),
+				'radius' => __('Radius', 'reactor'),
+				'round'  => __('Round', 'reactor'),
 			)
 		),
 		'columns' => array(
 			'type'    => 'select',
-			'label'   => __('Progress Bar Length', 'textdomain'),
-			'desc'    => __('Select the progress bar\'s length in columns', 'textdomain'),
+			'label'   => __('Progress Bar Length', 'reactor'),
+			'desc'    => __('Select the progress bar\'s length in columns', 'reactor'),
 			'options' => array(
 				'12' => '12',
 				'11' => '11',
@@ -445,18 +445,18 @@ $reactor_shortcodes['progress_bar'] = array(
 		'shape' => array(
 			'std'   => '100%',
 			'type'  => 'text',
-			'label' => __('Progress Bar Fill', 'textdomain'),
-			'desc'  => __('Enter the progress bar\'s fill amount', 'textdomain'),
+			'label' => __('Progress Bar Fill', 'reactor'),
+			'desc'  => __('Enter the progress bar\'s fill amount', 'reactor'),
 		),
 		'content' => array(
-			'std'   => 'Progress Bar Text',
+			'std'   => __('Progress Bar Text', 'reactor'),
 			'type'  => 'text',
-			'label' => __('Progress Bar\'s Text', 'textdomain'),
-			'desc'  => __('Add the progress bar\'s text', 'textdomain'),
+			'label' => __('Progress Bar\'s Text', 'reactor'),
+			'desc'  => __('Add the progress bar\'s text', 'reactor'),
 		)
 	),
-	'shortcode' => '[progress_bar shape="{{shape}}" type="{{type}}"] {{content}} [/progress_bar]',
-	'popup_title' => __('Insert Progress Bar Shortcode', 'textdomain')
+	'shortcode'   => '[progress_bar shape="{{shape}}" type="{{type}}"] {{content}} [/progress_bar]',
+	'popup_title' => __('Insert Progress Bar Shortcode', 'reactor')
 );
 
 /**
@@ -464,44 +464,44 @@ $reactor_shortcodes['progress_bar'] = array(
  */
 $reactor_shortcodes['reveal_modal'] = array(
 	'no_preview' => true,
-	'params'     => array(
+	'params' => array(
 		'text' => array(
 			'type'  => 'text',
-			'label' => __('Open Modal Text', 'textdomain'),
-			'desc'  => __('Add the link that will open the modal window', 'textdomain'),
-			'std'   => 'Click here'
+			'label' => __('Open Modal Text', 'reactor'),
+			'desc'  => __('Add the link that will open the modal window', 'reactor'),
+			'std'   => __('Click here', 'reactor'),
 		),
 		'size' => array(
 			'type'    => 'select',
-			'label'   => __('Modal Size', 'textdomain'),
-			'desc'    => __('Select the size of the modal window', 'textdomain'),
+			'label'   => __('Modal Size', 'reactor'),
+			'desc'    => __('Select the size of the modal window', 'reactor'),
 			'options' => array(
-				''       => 'Medium',
-				'tiny'   => 'Tiny',
-				'small'  => 'Small',
-				'Large'  => 'Large',
-				'xlarge' => 'X-Large'
+				''       => __('Medium', 'reactor'),
+				'tiny'   => __('Tiny', 'reactor'),
+				'small'  => __('Small', 'reactor'),
+				'Large'  => __('Large', 'reactor'),
+				'xlarge' => __('X-Large', 'reactor'),
 			)
 		),
 		'button' => array(
 			'type'  => 'select',
-			'label' => __('Button Link', 'textdomain'),
-			'desc'  => __('Select if the link that opens the modal is a button', 'textdomain'),
+			'label' => __('Button Link', 'reactor'),
+			'desc'  => __('Select if the link that opens the modal is a button', 'reactor'),
 			'options' => array(
-				'false' => 'False',
-				'true'  => 'True'
+				'false' => __('False', 'reactor'),
+				'true'  => __('True', 'reactor'),
 			)
 		),
 		'content' => array(
-			'std'   => 'Content',
+			'std'   => __('Content', 'reactor'),
 			'type'  => 'textarea',
-			'label' => __('Modal Content', 'textdomain'),
-			'desc'  => __('Add the content for the modal. Will accept HTML', 'textdomain'),
+			'label' => __('Modal Content', 'reactor'),
+			'desc'  => __('Add the content for the modal. Will accept HTML', 'reactor'),
 		),
 		
 	),
-	'shortcode' => '[reveal_modal text="{{text}}" size="{{size}}" button="{{button}}"] {{content}} [/reveal_modal]',
-	'popup_title' => __('Insert Reveal Modal Shortcode', 'textdomain')
+	'shortcode'   => '[reveal_modal text="{{text}}" size="{{size}}" button="{{button}}"] {{content}} [/reveal_modal]',
+	'popup_title' => __('Insert Reveal Modal Shortcode', 'reactor')
 );
 
 /**
@@ -511,45 +511,45 @@ $reactor_shortcodes['sections'] = array(
     'params' => array(
 		'type' => array(
 			'type'    => 'select',
-			'label'   => __('Sections Type', 'textdomain'),
-			'desc'    => __('Select the type of sections to use', 'textdomain'),
+			'label'   => __('Sections Type', 'reactor'),
+			'desc'    => __('Select the type of sections to use', 'reactor'),
 			'options' => array(
-				'tabs'         => 'Tabs',
-				'accordion'    => 'Accordion',
-				'vertical-nav' => 'Vertical Nav'
+				'tabs'         => __('Tabs', 'reactor'),
+				'accordion'    => __('Accordion', 'reactor'),
+				'vertical-nav' => __('Vertical Nav', 'reactor'),
 			)
 		),
 	),
-    'no_preview' => true,
-    'shortcode' => '[section_group type="{{type}}"] {{child_shortcode}}  [/section_group]',
-    'popup_title' => __('Insert Sections Shortcode', 'textdomain'),
+    'no_preview'  => true,
+    'shortcode'   => '[section_group type="{{type}}"] {{child_shortcode}}  [/section_group]',
+    'popup_title' => __('Insert Sections Shortcode', 'reactor'),
     
     'child_shortcode' => array(
         'params' => array(
             'title' => array(
-                'std' => 'Title',
-                'type' => 'text',
-                'label' => __('Section Title', 'textdomain'),
-                'desc' => __('Title of the section', 'textdomain'),
+                'std'   => __('Title', 'reactor'),
+                'type'  => 'text',
+                'label' => __('Section Title', 'reactor'),
+                'desc'  => __('Title of the section', 'reactor'),
             ),
 		'active' => array(
 			'type'    => 'select',
-			'label'   => __('Active', 'textdomain'),
-			'desc'    => __('Select if this section is active on page load', 'textdomain'),
+			'label'   => __('Active', 'reactor'),
+			'desc'    => __('Select if this section is active on page load', 'reactor'),
 			'options' => array(
-				'false' => 'False',
-				'true'  => 'True'
+				'false' => __('False', 'reactor'),
+				'true'  => __('True', 'reactor'),
 			)
 		),
             'content' => array(
-                'std' => 'Tab Content',
-                'type' => 'textarea',
-                'label' => __('Section Content', 'textdomain'),
-                'desc' => __('Add the tabs content', 'textdomain')
+                'std'   => __('Tab Content', 'reactor'),
+                'type'  => 'textarea',
+                'label' => __('Section Content', 'reactor'),
+                'desc'  => __('Add the tabs content', 'reactor')
             )
         ),
         'shortcode' => '[section title="{{title}}"] {{content}} [/section]',
-        'clone_button' => __('Add Section', 'textdomain')
+        'clone_button' => __('Add Section', 'reactor')
     )
 );
 
@@ -561,34 +561,34 @@ $reactor_shortcodes['tooltip'] = array(
 	'params' => array(
 		'text' => array(
 			'type'  => 'text',
-			'label' => __('Tip Text', 'textdomain'),
-			'desc'  => __('Add the text that will be in the tooltip', 'textdomain'),
-			'std'   => 'Add tooltip text here'
+			'label' => __('Tip Text', 'reactor'),
+			'desc'  => __('Add the text that will be in the tooltip', 'reactor'),
+			'std'   => __('Add tooltip text here', 'reactor'),
 		),
 		'position' => array(
-			'type'  => 'select',
-			'label' => __('Tooltip Position', 'textdomain'),
-			'desc'  => __('Select where the tooltip should be displayed', 'textdomain'),
+			'type'    => 'select',
+			'label'   => __('Tooltip Position', 'reactor'),
+			'desc'    => __('Select where the tooltip should be displayed', 'reactor'),
 			'options' => array(
-				''      => 'Bottom',
-				'top'   => 'Top',
-				'right' => 'Right',
-				'left'  => 'Left'
+				''      => __('Bottom', 'reactor'),
+				'top'   => __('Top', 'reactor'),
+				'right' => __('Right', 'reactor'),
+				'left'  => __('Left', 'reactor'),
 			)
 		),
 		'width' => array(
 			'type'  => 'text',
-			'label' => __('Tooltip Width', 'textdomain'),
-			'desc'  => __('Add a specific width for the tip. Only a number.', 'textdomain'),
+			'label' => __('Tooltip Width', 'reactor'),
+			'desc'  => __('Add a specific width for the tip. Only a number.', 'reactor'),
 		),
 		'content' => array(
-			'std'   => 'Content',
+			'std'   => __('Content', 'reactor'),
 			'type'  => 'text',
-			'label' => __('Modal Content', 'textdomain'),
-			'desc'  => __('Add the content for the modal. Will accept HTML', 'textdomain'),
+			'label' => __('Modal Content', 'reactor'),
+			'desc'  => __('Add the content for the modal. Will accept HTML', 'reactor'),
 		),
 		
 	),
-	'shortcode' => '[tooltip text="{{text}}" position="{{position}}" width="{{width}}"] {{content}} [/tooltip]',
-	'popup_title' => __('Insert a Tooltip Shortcode', 'textdomain')
+	'shortcode'   => '[tooltip text="{{text}}" position="{{position}}" width="{{width}}"] {{content}} [/tooltip]',
+	'popup_title' => __('Insert a Tooltip Shortcode', 'reactor')
 );

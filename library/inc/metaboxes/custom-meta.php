@@ -125,7 +125,7 @@ function custom_meta_box_field( $field, $meta = null, $repeatable = null ) {
 							foreach ( $posts as $item )
 								echo '<option value="' . $item->ID . '"' . selected( is_array( $meta ) && in_array( $item->ID, $meta ), true, false ) . '>' . $item->post_title . '</option>';
 							$post_type_object = get_post_type_object( $post_type );
-							echo '</select> &nbsp;<span class="description"><a href="' . admin_url( 'edit.php?post_type=' . $post_type . '">Manage ' . $post_type_object->label ) . '</a></span><br />' . $desc;
+							echo '</select> &nbsp;<span class="description"><a href="' . admin_url( 'edit.php?post_type=' . $post_type . '">' . __('Manage ', 'reactor') . $post_type_object->label ) . '</a></span><br />' . $desc;
 						break;
 						// post_checkboxes
 						case 'post_checkboxes':
@@ -166,7 +166,7 @@ function custom_meta_box_field( $field, $meta = null, $repeatable = null ) {
 							}
 							$posts = get_posts( array( 'post_type' => $post_type, 'posts_per_page' => -1, 'post__not_in' => $exclude ) );
 							echo '<ul class="post_drop_sort_source sort_list">
-									<li class="post_drop_sort_area_name">Available ' . $label . '</li>';
+									<li class="post_drop_sort_area_name">' . __('Available ', 'reactor') . $label . '</li>';
 							foreach ( $posts as $item ) {
 								$output = $display == 'thumbnail' ? get_the_post_thumbnail( $item->ID, array( 204, 30 ) ) : get_the_title( $item->ID ); 
 								echo '<li id="' . $item->ID . '">' . $output . '</li>';
@@ -193,7 +193,7 @@ function custom_meta_box_field( $field, $meta = null, $repeatable = null ) {
 							foreach ( $terms as $term)
 								echo '<input type="checkbox" value="' . $term->slug . '" name="' . $id . '[]" id="' . $term->slug . '"' . checked( $checked, $term->slug, false ) . ' /> <label for="' . $term->slug . '">' . $term->name . '</label><br />';
 							$tax = get_taxonomy( $taxonomy );
-							echo '<span class="description">' . $desc . ' <a href="'.get_bloginfo( 'url' ) . '/wp-admin/edit-tags.php?taxonomy=' . $taxonomy . '&post_type=' . $page . '">Manage ' . $tax->label . '</a></span>';
+							echo '<span class="description">' . $desc . ' <a href="'.get_bloginfo( 'url' ) . '/wp-admin/edit-tags.php?taxonomy=' . $taxonomy . '&post_type=' . $page . '">' . __('Manage ', 'reactor') . $tax->label . '</a></span>';
 						break;
 						// date
 						case 'date':
@@ -228,8 +228,8 @@ function custom_meta_box_field( $field, $meta = null, $repeatable = null ) {
 							echo	'<div class="meta_box_file_stuff"><<input name="' . esc_attr( $name ) . '" type="hidden" class="meta_box_upload_file" value="' . esc_url( $meta ) . '" />
 										<span class="' . $iconClass . '"></span>
 										<span class="meta_box_filename">' . esc_url( $meta ) . '</span>
-											<a href="#" class="meta_box_upload_image_button button" rel="' . get_the_ID() . '">Choose File</a>
-											<small>&nbsp;<a href="#" class="meta_box_clear_file_button">Remove File</a></small></div>
+											<a href="#" class="meta_box_upload_image_button button" rel="' . get_the_ID() . '">' . __('Choose File', 'reactor'). '</a>
+											<small>&nbsp;<a href="#" class="meta_box_clear_file_button">' . __('Remove File', 'reactor') . '</a></small></div>
 											<br clear="all" />' . $desc;
 						break;
 						// repeatable
@@ -238,7 +238,7 @@ function custom_meta_box_field( $field, $meta = null, $repeatable = null ) {
 								<thead>
 									<tr>
 										<th><span class="sort_label"></span></th>
-										<th>Fields</th>
+										<th>' . __('Fields', 'reactor') . '</th>
 										<th><a class="meta_box_repeatable_add" href="#"></a></th>
 									</tr>
 								</thead>
@@ -268,7 +268,7 @@ function custom_meta_box_field( $field, $meta = null, $repeatable = null ) {
 								<tfoot>
 									<tr>
 										<th><span class="sort_label"></span></th>
-										<th>Fields</th>
+										<th>' . __('Fields', 'reactor') . '</th>
 										<th><a class="meta_box_repeatable_add" href="#"></a></th>
 									</tr>
 								</tfoot>';

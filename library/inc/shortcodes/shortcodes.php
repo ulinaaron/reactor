@@ -538,6 +538,7 @@ function reactor_add_orbit_slider( $atts, $content = null ) {
 			'orderby'  => 'date',
 			'order'    => 'DESC',
 			'category' => '',
+			'field'    => 'id',
 			'slides'   => -1,
 			'id'       => '',
 		 ), $atts ) );
@@ -546,6 +547,7 @@ function reactor_add_orbit_slider( $atts, $content = null ) {
 		'orderby'        => $orderby,
 		'order'          => $order,
 		'category'       => $category,
+		'field'          => $field,
 		'posts_per_page' => $slides,
 		'slider_id'      => $id,
 		'echo'           => false

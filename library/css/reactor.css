@@ -62,24 +62,25 @@ textarea {
 }
 /*  fix for h1 in top bar causing SEO nightmare */
 .top-bar .name p {
-	height: 45px;
-    margin: 0;
-    font-size: 16px; }
-.top-bar .name p {
-	line-height: 45px;
-	font-size: 1.0625em;
-	margin: 0; }
+	font-size:1.0625em;
+	line-height:45px;
+	margin:0
+}
 .top-bar .name p a {
-	font-weight: bold;
-	color: white;
-	width: 50%;
-	display: block;
-	padding: 0 15px;
+	font-weight:bold;
+	color:white;
+	width:50%;
+	display:block;
+	padding:0 15px
+}
+/* fix for margin on top bar */
+.top-bar, .contain-to-grid .top-bar {
+	margin-bottom:0
 }
 /* Header ---------------------- */
 .inner-header {
 	border-bottom:none;
-	margin: 0 0 1.25em;
+	margin:0 0 1.25em;
 	padding:0.438em 0 0
 }
 .site-header .site-title {
@@ -170,7 +171,7 @@ textarea {
 /* Posts & Pages ---------------------- */
 .entry-icon {
 	font-size:2.5em;
-	position:static;
+	position:static
 }
 @media only screen and (min-width: 48em) {
 	.entry-icon {
@@ -215,7 +216,7 @@ textarea {
 /* Post Formats ---------------------- */
 .post.format-chat .entry-content {
 	border:0.063em solid #ddd;
-	padding:0.625em;
+	padding:0.625em
 }
 .post.format-chat .entry-content p {
 	margin:0
@@ -255,7 +256,7 @@ h2.entry-title.portfolio {
 }
 #Grid .mix{
     opacity: 0;
-    display: none;
+    display: none
 }
 /* Comments ---------------------- */
 ol.commentlist {
@@ -321,16 +322,6 @@ ul.breadcrumbs {
 ul.pagination {
 	clear:both;
 	margin:1.063em 0 1.25em
-}
-/* Orbit ---------------------- */
-.orbit-slides-container {
-	list-style-type:none
-}
-.orbit-slides-container > * .orbit-caption, .orbit-slides-container img {
-	display:none
-}
-.orbit-container .orbit-slides-container > * .orbit-caption, .orbit-container .orbit-slides-container img {
-	display:block
 }
 /* Horizontal Nav ---------------------- */
 #menu .section-container.horizontal-nav .section .title.has-dropdown > a:after,

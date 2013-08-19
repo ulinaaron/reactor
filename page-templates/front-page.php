@@ -20,7 +20,14 @@ $slider_category = reactor_option('frontpage_slider_category', ''); ?>
         <div class="row">
           	<div class="<?php reactor_columns( 12 ); ?>">
                 <?php // slider function passing category from options
-				reactor_slider( array('category' => $slider_category, 'slider_id' => 'slider-front-page' ) ); ?>
+				reactor_slider( array(
+					'category' => $slider_category,
+					'slider_id' => 'slider-front-page',
+					'data_options' => array(
+						'animation' => '\'fade\'',
+						'pause_on_hover' => 'false',
+						),
+					) ); ?>
             </div><!-- .columns -->
         </div><!-- .row -->
   

@@ -20,6 +20,7 @@ if ( !function_exists('reactor_slider') ) {
 			'field'          => 'id',
 			'posts_per_page' => -1,
 			'slider_id'      => '',
+			'data_options'   => '',
 			'echo'           => true
 		 );
 		$args = wp_parse_args( $args, $defaults );
@@ -59,9 +60,21 @@ if ( !function_exists('reactor_slider') ) {
 		$slider_query = new WP_Query( $query_args );
 		$output = ''; $slide = ''; $caption = '';
 		
+		if ( is_array( $args['data_options'] ) ) {
+			$options_array = array();
+			foreach ( $args['data_options'] as $key => $value ) {
+				$options_array[] = $key . ':' . $value;
+			}
+			$options = implode( '; ', $options_array );
+			$data_options = ' data-options="' . $options . '"';
+		} else {
+			$data_options = '';
+		}
+		
 		if ( $slider_query->have_posts() ) : 
-			$output .= '<div' . $slider_id . ' class="slider">';
-            $output .= '<ul class="orbit-slides-container" data-orbit>';
+			$output .= '<div class="slideshow-wrapper">';
+			$output .= '<div class="preloader"></div>';
+            $output .= '<ul' . $slider_id . ' data-orbit' . $data_options . '>';
 			
             while ( $slider_query->have_posts() ) : $slider_query->the_post();
 			    $post_id = get_the_ID();

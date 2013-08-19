@@ -25,7 +25,7 @@
 					icons: false
                 });
 
-                btn.onRenderMenu.add(function (c, b)
+                btn.onRenderMenu.add(function ( c, b )
 				{					
 					a.addWithPopup( b, "Alert", "alert" );
 					a.addWithPopup( b, "Button", "button" );
@@ -51,7 +51,7 @@
 				title: title,
 				onclick: function () {
 					tinyMCE.activeEditor.execCommand("reactorPopup", false, {
-						title: title,
+						title: ed.getLang(extrastrings.title),
 						identifier: id
 					})
 				}
