@@ -37,7 +37,8 @@ class Top_Bar_Walker extends Walker_Nav_Menu {
      * @param int $depth Depth of menu item. Used for padding.
      * @param object $args
      */
-    function start_el( &$output, $item, $depth, $args ) {
+	 
+    function start_el( &$output, $object, $depth = 0, $args = array(), $current_object_id = 0 ) {
         $item_html = '';
         parent::start_el( $item_html, $item, $depth, $args );	
 		
@@ -317,17 +318,16 @@ class Vertical_Nav_Walker extends Walker_Nav_Menu {
  */
 class Side_Menu_Walker extends Walker_Page {
 
-    function start_lvl( &$output, $depth ) {
+    function start_lvl( &$output, $depth = 0, $args = array() ) {
         $indent = str_repeat( "\t", $depth );
         $output .= '<div class="content" data-section-content><ul class="side-nav">';
     }
-	
-    function end_lvl( &$output, $depth ) {
+    function end_lvl( &$output, $depth = 0, $args = array() ) {
         $indent = str_repeat( "\t", $depth );
         $output .= '</ul></div></div>';
     }
 
-    function start_el( &$output, $page, $depth, $args, $current_page ) {
+    function start_el( &$output, $object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 
         extract( $args, EXTR_SKIP );
         $classes = array( 'page_item', 'page-item-' . $page->ID );
@@ -362,7 +362,7 @@ class Side_Menu_Walker extends Walker_Page {
 		$output .= ( $depth == 0 && empty( $args['has_children'] ) ) ? '</div>' : '';
     }
 	
-    function end_el( &$output, $item, $depth ) {
+    function end_el( &$output, $object, $depth = 0, $args = array() ) {
 		if ( $depth > 0 ) {
 			$output .= "</li>";
 		}
