@@ -58,7 +58,7 @@ if ( !empty( $_SERVER['SCRIPT_FILENAME'] ) && 'comments.php' == basename( $_SERV
       
       <?php else : 
 	       comment_form( array( 
-                'logged_in_as' => '<p class="comments-logged-in-as">' . __('Logged in as', 'reactor') . ' <a href="' . get_option('siteurl') .'/wp-admin/profile.php">' . $user_identity . '</a>. <a href="' . wp_logout_url( get_permalink() ) . '" title="' . __('Log out of this account', 'reactor') . '">' . __('Log out', 'reactor') . '&raquo;</a></p>', 
+                'logged_in_as' => '<p class="comments-logged-in-as">' . __('Logged in as', 'reactor') . ' <a href="' . get_option('url') .'/wp-admin/profile.php">' . $user_identity . '</a>. <a href="' . wp_logout_url( get_permalink() ) . '" title="' . __('Log out of this account', 'reactor') . '">' . __('Log out', 'reactor') . '&raquo;</a></p>', 
 				
                 'fields' => array( 
                     'author' => '<div class="row"><p class="comment-form-author six columns"><label for="author">' . __('Name ', 'reactor') . ( $req ? __('( required )', 'reactor') : '') . '</label> '.'<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" placeholder="' . __('Your Name*', 'reactor') . '" tabindex="1"' . ( $req ? __( "aria-required='true'" ) : '') . ' /></p>',
@@ -84,3 +84,8 @@ if ( !empty( $_SERVER['SCRIPT_FILENAME'] ) && 'comments.php' == basename( $_SERV
     <?php endif; ?>
 </div><!-- end #comments -->
 <?php endif; ?>
+Commit summary: Extended description: (optional)
+danieliser danieliser@wizardinternetsolutions.com
+
+Commit summary: Extended description: (optional)
+danieliser danieliser@wizardinternetsolutions.com
