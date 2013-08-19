@@ -327,7 +327,7 @@ class Side_Menu_Walker extends Walker_Page {
         $output .= '</ul></div></div>';
     }
 
-    function start_el( &$output, $object, $depth = 0, $args = array(), $current_object_id = 0 ) {
+    function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
 
         extract( $args, EXTR_SKIP );
         $classes = array( 'page_item', 'page-item-' . $page->ID );
