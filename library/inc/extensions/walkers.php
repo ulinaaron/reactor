@@ -40,11 +40,11 @@ class Top_Bar_Walker extends Walker_Nav_Menu {
 	 
     function start_el( &$output, $object, $depth = 0, $args = array(), $current_object_id = 0 ) {
         $item_html = '';
-        parent::start_el( $item_html, $item, $depth, $args );	
+        parent::start_el( $item_html, $object, $depth, $args );	
 		
         $output .= ( $depth == 0 ) ? '<li class="divider"></li>' : '';
 		
-        $classes = empty( $item->classes ) ? array() : ( array ) $item->classes;	
+        $classes = empty( $object->classes ) ? array() : ( array ) $object->classes;	
 		
         if ( in_array('label', $classes) ) {
             $item_html = preg_replace( '/<a[^>]*>( .* )<\/a>/iU', '<label>$1</label>', $item_html );
