@@ -84,8 +84,3 @@ if ( !empty( $_SERVER['SCRIPT_FILENAME'] ) && 'comments.php' == basename( $_SERV
     <?php endif; ?>
 </div><!-- end #comments -->
 <?php endif; ?>
-Commit summary: Extended description: (optional)
-danieliser danieliser@wizardinternetsolutions.com
-
-Commit summary: Extended description: (optional)
-danieliser danieliser@wizardinternetsolutions.com
