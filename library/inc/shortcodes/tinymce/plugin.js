@@ -51,7 +51,7 @@
 				title: title,
 				onclick: function () {
 					tinyMCE.activeEditor.execCommand("reactorPopup", false, {
-						title: ed.getLang(extrastrings.title),
+						title: title,
 						identifier: id
 					})
 				}
