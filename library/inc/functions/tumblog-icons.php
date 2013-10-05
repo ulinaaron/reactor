@@ -20,16 +20,16 @@ if ( !function_exists('reactor_tumblog_icon') ) {
 		$format = ( get_post_format( get_the_ID() ) ) ? get_post_format( get_the_ID() ) : 'standard';
 		
 		switch( $format ) {
-			case 'standard' : $icon .= '<i class="icon general foundicon-page"></i>'; break;
-			case 'aside' : $icon .= '<i class="icon general foundicon-idea"></i>'; break;
-			case 'gallery' : $icon .= '<i class="icon general foundicon-website"></i>'; break;
-			case 'link' : $icon .= '<i class="icon accessible foundicon-network"></i>'; break;
-			case 'image' : $icon .= '<i class="icon general foundicon-photo"></i>'; break;
-			case 'quote' : $icon .= '<i class="icon social foundicon-chat"></i>'; break;
-			case 'status' : $icon .= '<i class="icon general foundicon-star"></i>'; break;
-			case 'video' : $icon .= '<i class="icon general foundicon-video"></i>'; break;
-			case 'audio' : $icon .= '<i class="icon accessible foundicon-speaker"></i>'; break;
-			case 'chat' : $icon .= '<i class="icon social foundicon-torso"></i>'; break;
+			case 'standard' : $icon .= '<i class="fi-page-filled"></i>'; break;
+			case 'aside' : $icon .= '<i class="fi-page-export"></i>'; break;
+			case 'gallery' : $icon .= '<i class="fi-layout"></i>'; break;
+			case 'link' : $icon .= '<i class="fi-link"></i>'; break;
+			case 'image' : $icon .= '<i class="fi-photo"></i>'; break;
+			case 'quote' : $icon .= '<i class="fi-quote"></i>'; break;
+			case 'status' : $icon .= '<i class="fi-star"></i>'; break;
+			case 'video' : $icon .= '<i class="fi-play-video"></i>'; break;
+			case 'audio' : $icon .= '<i class="fi-sound"></i>'; break;
+			case 'chat' : $icon .= '<i class="fi-torsos"></i>'; break;
 		}
 		
 		$defaults = array(

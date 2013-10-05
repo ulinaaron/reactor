@@ -442,20 +442,20 @@ $reactor_shortcodes['progress_bar'] = array(
 				'1'  => '1',
 			)
 		),
-		'shape' => array(
+		'fill' => array(
 			'std'   => '100%',
 			'type'  => 'text',
 			'label' => __('Progress Bar Fill', 'reactor'),
 			'desc'  => __('Enter the progress bar\'s fill amount', 'reactor'),
 		),
 		'content' => array(
-			'std'   => __('Progress Bar Text', 'reactor'),
+			'std'   => __('Bar Text', 'reactor'),
 			'type'  => 'text',
 			'label' => __('Progress Bar\'s Text', 'reactor'),
 			'desc'  => __('Add the progress bar\'s text', 'reactor'),
 		)
 	),
-	'shortcode'   => '[progress_bar shape="{{shape}}" type="{{type}}"] {{content}} [/progress_bar]',
+	'shortcode'   => '[progress_bar shape="{{shape}}" type="{{type}}" fill="{{fill}}" columns="{{columns}}"] {{content}} [/progress_bar]',
 	'popup_title' => __('Insert Progress Bar Shortcode', 'reactor')
 );
 
