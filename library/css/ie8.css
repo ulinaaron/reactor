@@ -150,9 +150,9 @@
 .lt-ie9 .reveal-modal.expand{margin-left:-47.5%;width:95%}
 
 /* Joyride ---------------------- */
-.lt-ie9. joyride-tip-guide{width:300px;left:0}
-.lt-ie9. joyride-tip-guide .joyride-nub.bottom{bottom:none;border-color:#000 transparent transparent!important}
-.lt-ie9. joyride-tip-guide .joyride-nub.right{top:22px;bottom:none;left:auto;right:-28px;border-color:transparent transparent transparent #000 !important}
+.lt-ie9 .joyride-tip-guide{width:300px;left:0}
+.lt-ie9 .joyride-tip-guide .joyride-nub.bottom{bottom:none;border-color:#000 transparent transparent!important}
+.lt-ie9 .joyride-tip-guide .joyride-nub.right{top:22px;bottom:none;left:auto;right:-28px;border-color:transparent transparent transparent #000 !important}
 .lt-ie9 .joyride-tip-guide .joyride-nub.left{top:22px;left:-28px;right:auto;bottom:none;border-color:transparent #000 transparent transparent !important}
 
 /* Clearing ---------------------- */
